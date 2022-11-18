@@ -1,0 +1,8 @@
+.sidebar {
+    grid-area: sidebar;
+    padding: 15px 0;
+}
+
+.item {
+    padding: 5px 0;
+}

@@ -1,0 +1,50 @@
+.body {
+  background-color: lightsteelblue;
+}
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.app-wrapper {
+  background-color: lightsteelblue;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px 1fr;
+  gap: 15px 15px;
+  grid-template-areas:
+          "header"
+          "content-wrapper";
+}
+
+.content-wrapper {
+  grid-area: content-wrapper;
+  background-color: lightsteelblue;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  gap: 15px 15px;
+  grid-template-areas:
+          "sidebar profile";
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1200px){
+  .container {
+    width: 1170px;
+  }
+}
