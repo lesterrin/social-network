@@ -28,7 +28,15 @@
   grid-template-rows: 1fr;
   gap: 15px 15px;
   grid-template-areas:
-          "sidebar profile";
+          "sidebar dynamic_column";
+}
+
+.dynamic_column{
+  grid-area: dynamic_column;
+  width: 100%;
+  background-color: white;
+  padding: 15px;
+  border-radius: 15px;
 }
 
 @media (min-width: 768px) {

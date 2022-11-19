@@ -3,6 +3,39 @@
     padding: 15px 0;
 }
 
-.item {
-    padding: 5px 0;
+/*.item {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.item:hover{
+    background-color: lightslategray;
+}*/
+
+a {
+    text-decoration: none;
+    color:black;
+}
+a .item {
+    padding:5px;
+    border-radius: 5px;
+}
+
+a .item:hover {
+    background-color: lightslategray;
+}
+/*.item a{
+    text-decoration: none;
+}
+
+.item a:active{
+    color:black;
+}
+
+.item a:visited{
+    color:black;
+}*/
+
+.active {
+    background-color: lightslategray;
 }

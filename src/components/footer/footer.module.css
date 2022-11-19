@@ -1,0 +1,36 @@
+.footer_wrapper {
+    background-color: white;
+}
+
+.developed {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px 20px;
+    grid-auto-flow: row;
+    grid-template-areas:
+            "head logo"
+            "source_link logo";
+    margin: 50px 0 50px;
+}
+
+.logo {
+    grid-area: logo;
+}
+
+.head {
+    grid-area: head;
+    text-align:right;
+}
+
+.source_link{
+    grid-area: source_link;
+    text-align:right;
+}
+
+.source_link a {
+    color: darkblue;
+    margin:0;
+    padding: 0;
+}
+
