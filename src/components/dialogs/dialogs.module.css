@@ -1,0 +1,37 @@
+.dialogs{
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 20fr;
+    gap: 10px 0;
+    grid-template-areas:
+            "dialogs_header dialogs_header"
+            "dialogs_items messages";
+}
+
+.dialogs_header {
+    grid-area: dialogs_header;
+    border: solid 1px gray;
+}
+
+.dialogs_items{
+    grid-area: dialogs_items;
+    border: solid 1px gray;
+}
+
+.dialogs_item{
+    padding: 10px;
+}
+
+.messages {
+    grid-area: messages;
+    border: solid 1px gray;
+}
+
+.message {
+    padding: 10px;
+}
+
+.active {
+    background-color: gray;
+}

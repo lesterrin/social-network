@@ -1,15 +1,11 @@
 import s from './profile.module.css';
-import MyPosts from '../myposts';
+import MyPosts from './myposts';
+import ProfileInfo from "./profile_info";
 
 const Profile = () => {
     return (
         <div className={s.profile}>
-            <div className={s.profile_image}>
-                <img src="http://u.livelib.ru/reader/Mariashka_true/o/vro4mzw2/o-o.jpeg" />
-            </div>
-            <div>
-                avatar + description
-            </div>
+            <ProfileInfo/>
             <MyPosts />
         </div>
     );
