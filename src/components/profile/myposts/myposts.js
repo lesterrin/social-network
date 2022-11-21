@@ -1,12 +1,20 @@
+import React from "react";
 import s from './myposts.module.css';
 import Post from "./post";
 
-const MyPosts = () => {
 
-    const postsData = [
-        {id: 1, message:'HelloWorld!', likes: 5},
-        {id: 2, message:'ImHere', likes: 3}
-    ];
+const MyPosts = ({postsData}) => {
+
+    const posts = postsData.map(({id,message,likes}) => {
+        return <Post id={id} message={message} likes={likes}/>
+    });
+
+    const newPostElement = React.createRef();
+
+    const addPost = () => {
+        let text = newPostElement.current.value;
+        alert(text);
+    }
 
     return (
         <div className={s.my_posts}>
@@ -14,18 +22,14 @@ const MyPosts = () => {
             <div>
                 <div>New post</div>
                 <div>
-                    <textarea></textarea>
+                    <textarea ref={newPostElement}></textarea>
                 </div>
                 <div>
-                    <button>Add post</button>
+                    <button onClick={addPost}>Add post</button>
                 </div>
             </div>
             <div className={s.posts}>
-                {
-                    postsData.map(({id,message,likes}) => {
-                        return <Post id={id} message={message} likes={likes}/>
-                    })
-                }
+                {posts}
             </div>
         </div>
     );

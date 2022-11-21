@@ -10,7 +10,7 @@ import Music from "../music";
 import News from "../news";
 import Settings from "../settings";
 
-const App = () => {
+const App = ({profilePage, dialogsPage}) => {
   return (
    <div className='app-wrapper'>
      <Header/>
@@ -18,8 +18,8 @@ const App = () => {
        <Sidebar />
        <div className='dynamic_column'>
            <Routes>
-               <Route path="/profile" element={<Profile />} />
-               <Route path="/dialogs" element={<Dialogs/>} />
+               <Route path="/profile" element={<Profile {...profilePage}/>} />
+               <Route path="/dialogs" element={<Dialogs {...dialogsPage}/>} />
                <Route path="/news" element={<News/>} />
                <Route path="/music" element={<Music/>} />
                <Route path="/settings" element={<Settings/>} />

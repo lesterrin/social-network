@@ -11,21 +11,17 @@
 
 .dialogs_header {
     grid-area: dialogs_header;
-    border: solid 1px gray;
+    border: solid 1px lightgrey;
 }
 
 .dialogs_items{
     grid-area: dialogs_items;
-    border: solid 1px gray;
-}
-
-.dialogs_item{
-    padding: 10px;
+    border: solid 1px lightgrey;
 }
 
 .messages {
     grid-area: messages;
-    border: solid 1px gray;
+    border: solid 1px lightgrey;
 }
 
 .message {
@@ -33,5 +29,5 @@
 }
 
 .active {
-    background-color: gray;
+    background-color: lightgrey;
 }

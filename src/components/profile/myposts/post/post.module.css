@@ -1,8 +1,26 @@
-.item{
+.item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-auto-columns: 1fr;
+    gap: 10px 10px;
+    grid-auto-flow: row;
+    grid-template-areas:
+            "avatar name"
+            "message message"
+            "likes .";
     padding:20px;
 }
 
-.item img {
+.avatar { grid-area: avatar; }
+
+.avatar img {
     height: 65px;
     border-radius: 50%;
 }
+
+.name { grid-area: name; }
+
+.message { grid-area: message; }
+
+.likes { grid-area: likes; }
