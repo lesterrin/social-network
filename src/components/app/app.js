@@ -10,7 +10,7 @@ import Music from "../music";
 import News from "../news";
 import Settings from "../settings";
 
-const App = ({profilePage, dialogsPage}) => {
+const App = ({profilePage, dialogsPage, addPost, changeNewPostText, sendMessage, changeNewMessageText}) => {
   return (
    <div className='app-wrapper'>
      <Header/>
@@ -18,8 +18,8 @@ const App = ({profilePage, dialogsPage}) => {
        <Sidebar />
        <div className='dynamic_column'>
            <Routes>
-               <Route path="/profile" element={<Profile {...profilePage}/>} />
-               <Route path="/dialogs" element={<Dialogs {...dialogsPage}/>} />
+               <Route path="/profile" element={<Profile {...profilePage} addPost={addPost} changeNewPostText={changeNewPostText}/>} />
+               <Route path="/dialogs" element={<Dialogs {...dialogsPage} sendMessage={sendMessage} changeNewMessageText={changeNewMessageText}/>} />
                <Route path="/news" element={<News/>} />
                <Route path="/music" element={<Music/>} />
                <Route path="/settings" element={<Settings/>} />

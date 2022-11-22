@@ -1,3 +1,7 @@
+let rerenderEntireTree = () => {
+    console.log('state changed');
+}
+
 const state = {
     dialogsPage: {
         dialogsData : [
@@ -12,13 +16,49 @@ const state = {
             {id: 2, message:'Привет'},
             {id: 3, message:'Как дела?'}
         ],
+
+        newMessageText: ''
     },
     profilePage: {
         postsData : [
             {id: 1, message:'HelloWorld!', likes: 5},
             {id: 2, message:'ImHere', likes: 3}
-        ]
+        ],
+        newPostText: ''
     }
+}
+
+export const addPost = (postMessage) => {
+    let newPost = {
+        id: 5,
+        message: postMessage,
+        likes: 0
+    };
+    state.profilePage.postsData.push(newPost);
+    rerenderEntireTree(state);
+    changeNewPostText('');
+}
+
+export const changeNewPostText = (newPostText) => {
+    state.profilePage.newPostText = newPostText;
+    rerenderEntireTree(state);
+}
+
+export const sendMessage = (newMessageText) => {
+    let newMessage = {id: 5, message: newMessageText};
+    state.dialogsPage.messagesData.push(newMessage);
+    rerenderEntireTree(state);
+    changeNewMessageText('');
+    console.log(state.dialogsPage.newMessageText);
+}
+
+export const changeNewMessageText = (newMessageText) => {
+    state.dialogsPage.newMessageText = newMessageText;
+    rerenderEntireTree(state);
+}
+
+export const subscribe = (observer) => {
+    rerenderEntireTree = observer; //паттерн наблюдатель(observer)
 }
 
 export default state;

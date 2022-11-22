@@ -2,7 +2,6 @@ import s from './dialogs_item.module.css';
 import {NavLink} from "react-router-dom";
 
 const DialogsItem = ({id,name,avatar}) => {
-    console.log(avatar);
     return(
         <NavLink to={`/dialogs/${id}`}>
             <div className={s.dialogs_item}>

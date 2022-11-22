@@ -3,7 +3,7 @@ import DialogsItem from './dialogs_item';
 import Message from './message';
 import s from './dialogs.module.css';
 
-const Dialogs = ({dialogsData,messagesData}) => {
+const Dialogs = ({dialogsData, messagesData, sendMessage, changeNewMessageText, newMessageText}) => {
 
     const messages = messagesData.map(messageData => {
         return <Message {...messageData} />
@@ -15,8 +15,12 @@ const Dialogs = ({dialogsData,messagesData}) => {
 
     const newMessage = React.createRef();
 
-    const sendMessage = () => {
-        alert(newMessage.current.value);
+    const useSendMessage = () => {
+        sendMessage(newMessage.current.value);
+    }
+
+    const onMessageChange = () => {
+        changeNewMessageText(newMessage.current.value);
     }
 
     return(
@@ -27,8 +31,8 @@ const Dialogs = ({dialogsData,messagesData}) => {
                 </div>
             <div className={s.messages}>
                 {messages}
-                <textarea ref={newMessage}></textarea>
-                <button onClick={sendMessage}>Отправить</button>
+                <textarea ref={newMessage} onChange={onMessageChange} value={newMessageText}/>
+                <button onClick={useSendMessage}>Отправить</button>
             </div>
         </div>
     )
