@@ -3,24 +3,24 @@ import DialogsItem from './dialogs_item';
 import Message from './message';
 import s from './dialogs.module.css';
 
-const Dialogs = ({dialogsData, messagesData, sendMessage, changeNewMessageText, newMessageText}) => {
+const Dialogs = ({store}) => {
 
-    const messages = messagesData.map(messageData => {
+    const messages = store.state.dialogsPage.messagesData.map(messageData => {
         return <Message {...messageData} />
     });
 
-    const dialogs = dialogsData.map(dialogData => {
+    const dialogs =  store.state.dialogsPage.dialogsData.map(dialogData => {
         return <DialogsItem {...dialogData}/>
     });
 
     const newMessage = React.createRef();
 
     const useSendMessage = () => {
-        sendMessage(newMessage.current.value);
+        store.sendMessage(newMessage.current.value);
     }
 
     const onMessageChange = () => {
-        changeNewMessageText(newMessage.current.value);
+        store.changeNewMessageText(newMessage.current.value);
     }
 
     return(
@@ -31,7 +31,7 @@ const Dialogs = ({dialogsData, messagesData, sendMessage, changeNewMessageText, 
                 </div>
             <div className={s.messages}>
                 {messages}
-                <textarea ref={newMessage} onChange={onMessageChange} value={newMessageText}/>
+                <textarea ref={newMessage} onChange={onMessageChange} value={store.state.dialogsPage.newMessageText}/>
                 <button onClick={useSendMessage}>Отправить</button>
             </div>
         </div>
