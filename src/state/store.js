@@ -1,5 +1,5 @@
 const store = {
-    state: {
+    _state: {
         dialogsPage: {
             dialogsData : [
                 {id: 1, name:'Лосяш', avatar: 'https://i.ytimg.com/vi/Uoh7Vp5g1nI/maxresdefault.jpg'},
@@ -24,35 +24,38 @@ const store = {
             newPostText: ''
         }
     },
+    getState(){
+        return this._state;
+    },
     addPost(postMessage){
         let newPost = {
             id: 5,
             message: postMessage,
             likes: 0
         };
-        this.state.profilePage.postsData.push(newPost);
-        this.rerenderEntireTree(this);
+        this._state.profilePage.postsData.push(newPost);
+        this._callSubscriber(this);
         this.changeNewPostText('');
     },
     changeNewPostText(newPostText){
-        this.state.profilePage.newPostText = newPostText;
-        this.rerenderEntireTree(this);
+        this._state.profilePage.newPostText = newPostText;
+        this._callSubscriber(this);
     },
     sendMessage(newMessageText){
         let newMessage = {id: 5, message: newMessageText};
-        this.state.dialogsPage.messagesData.push(newMessage);
-        this.rerenderEntireTree(this);
+        this._state.dialogsPage.messagesData.push(newMessage);
+        this._callSubscriber(this);
         this.changeNewMessageText('');
     },
     changeNewMessageText(newMessageText){
-        this.state.dialogsPage.newMessageText = newMessageText;
-        this.rerenderEntireTree(this);
+        this._state.dialogsPage.newMessageText = newMessageText;
+        this._callSubscriber(this);
     },
-    rerenderEntireTree(){
+    _callSubscriber(){
         console.log('state changed');
     },
     subscribe(observer){
-        this.rerenderEntireTree = observer;
+        this._callSubscriber = observer;
     }
 }
 

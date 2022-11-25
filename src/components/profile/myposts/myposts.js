@@ -2,8 +2,8 @@ import React from "react";
 import s from './myposts.module.css';
 import Post from "./post";
 
-const MyPosts = ({store}) => {
-    const posts = store.state.profilePage.postsData.map(({id,message,likes}) => {
+const MyPosts = ({profilePage, addPost,changeNewPostText}) => {
+    const posts = profilePage.postsData.map(({id,message,likes}) => {
         return <Post id={id} message={message} likes={likes}/>
     });
 
@@ -11,13 +11,14 @@ const MyPosts = ({store}) => {
 
     const useAddPost = () => {
         let text = newPostElement.current.value;
-        store.addPost(text);
+        addPost(text);
     }
 
     const onPostChange = () => {
         let text = newPostElement.current.value;
-        store.changeNewPostText(text);
+        changeNewPostText(text);
     }
+
 
     return (
         <div className={s.my_posts}>
@@ -25,7 +26,7 @@ const MyPosts = ({store}) => {
             <div>
                 <div>New post</div>
                 <div>
-                    <textarea ref={newPostElement} value={store.state.profilePage.newPostText} onChange={onPostChange}/>
+                    <textarea ref={newPostElement} value={profilePage.newPostText} onChange={onPostChange}/>
                 </div>
                 <div>
                     <button onClick={useAddPost}>Add post</button>
