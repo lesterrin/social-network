@@ -1,6 +1,7 @@
 import React from "react";
 import s from './myposts.module.css';
 import Post from "./post";
+import {addPostActionCreator, changeNewPostTextActionCreator} from "../../../state/store";
 
 const MyPosts = ({profilePage, dispatch}) => {
 
@@ -11,13 +12,13 @@ const MyPosts = ({profilePage, dispatch}) => {
     const newPostElement = React.createRef();
 
     const AddPost = () => {
-        let text = newPostElement.current.value;
-        dispatch({type:'ADD-POST', postMessage: text});
+        const text = newPostElement.current.value;
+        dispatch(addPostActionCreator(text));
     }
 
     const onPostChange = () => {
-        let text = newPostElement.current.value;
-        dispatch({type:'CHANGE-NEW-POST-TEXT', newPostText: text});
+        const text = newPostElement.current.value;
+        dispatch(changeNewPostTextActionCreator(text));
     }
 
     return (

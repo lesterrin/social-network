@@ -2,6 +2,7 @@ import React from "react";
 import DialogsItem from './dialogs_item';
 import Message from './message';
 import s from './dialogs.module.css';
+import {onMessageChangeActionCreator, sendMessageActionCreator} from "../../state/store";
 
 const Dialogs = ({dialogsPage,dispatch}) => {
 
@@ -15,12 +16,12 @@ const Dialogs = ({dialogsPage,dispatch}) => {
 
     const newMessage = React.createRef();
 
-    const useSendMessage = () => {
-        dispatch({type:'SEND-MESSAGE', newMessageText: newMessage.current.value});
+    const sendMessage = (text) => {
+        dispatch(sendMessageActionCreator(text));
     }
 
-    const onMessageChange = () => {
-        dispatch({type:'CHANGE-MESSAGE-TEXT', newMessageText: newMessage.current.value});
+    const onMessageChange = (text) => {
+        dispatch(onMessageChangeActionCreator(text));
     }
 
     return(
@@ -31,8 +32,8 @@ const Dialogs = ({dialogsPage,dispatch}) => {
                 </div>
             <div className={s.messages}>
                 {messages}
-                <textarea ref={newMessage} onChange={onMessageChange} value={dialogsPage.newMessageText}/>
-                <button onClick={useSendMessage}>Отправить</button>
+                <textarea ref={newMessage} onChange={() => onMessageChange(newMessage.current.value)} value={dialogsPage.newMessageText}/>
+                <button onClick={() => sendMessage(newMessage.current.value)}>Отправить</button>
             </div>
         </div>
     )
