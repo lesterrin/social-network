@@ -3,7 +3,7 @@ import DialogsItem from './dialogs_item';
 import Message from './message';
 import s from './dialogs.module.css';
 
-const Dialogs = ({dialogsPage,sendMessage,changeNewMessageText}) => {
+const Dialogs = ({dialogsPage,dispatch}) => {
 
     const messages = dialogsPage.messagesData.map(messageData => {
         return <Message {...messageData} />
@@ -16,11 +16,11 @@ const Dialogs = ({dialogsPage,sendMessage,changeNewMessageText}) => {
     const newMessage = React.createRef();
 
     const useSendMessage = () => {
-        sendMessage(newMessage.current.value);
+        dispatch({type:'SEND-MESSAGE', newMessageText: newMessage.current.value});
     }
 
     const onMessageChange = () => {
-        changeNewMessageText(newMessage.current.value);
+        dispatch({type:'CHANGE-MESSAGE-TEXT', newMessageText: newMessage.current.value});
     }
 
     return(

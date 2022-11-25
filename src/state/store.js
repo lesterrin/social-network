@@ -24,38 +24,47 @@ const store = {
             newPostText: ''
         }
     },
-    getState(){
-        return this._state;
-    },
-    addPost(postMessage){
-        let newPost = {
-            id: 5,
-            message: postMessage,
-            likes: 0
-        };
-        this._state.profilePage.postsData.push(newPost);
-        this._callSubscriber(this);
-        this.changeNewPostText('');
-    },
-    changeNewPostText(newPostText){
-        this._state.profilePage.newPostText = newPostText;
-        this._callSubscriber(this);
-    },
-    sendMessage(newMessageText){
-        let newMessage = {id: 5, message: newMessageText};
-        this._state.dialogsPage.messagesData.push(newMessage);
-        this._callSubscriber(this);
-        this.changeNewMessageText('');
-    },
-    changeNewMessageText(newMessageText){
-        this._state.dialogsPage.newMessageText = newMessageText;
-        this._callSubscriber(this);
-    },
     _callSubscriber(){
         console.log('state changed');
     },
+
+    getState(){
+        return this._state;
+    },
     subscribe(observer){
         this._callSubscriber = observer;
+    },
+
+    dispatch(action){
+        switch(action.type) {
+            case 'ADD-POST':
+                let newPost = {
+                    id: 5,
+                    message: action.postMessage,
+                    likes: 0
+                };
+                this._state.profilePage.postsData.push(newPost);
+                this._callSubscriber(this);
+                this.dispatch({type:'CHANGE-NEW-POST-TEXT', newPostText: ''});
+                break;
+
+            case 'CHANGE-NEW-POST-TEXT':
+                this._state.profilePage.newPostText = action.newPostText;
+                this._callSubscriber(this);
+                break;
+
+            case 'SEND-MESSAGE':
+                let newMessage = {id: 5, message: action.newMessageText};
+                this._state.dialogsPage.messagesData.push(newMessage);
+                this._callSubscriber(this);
+                this.dispatch({type:'CHANGE-MESSAGE-TEXT', newMessageText: ''});
+                break;
+
+            case 'CHANGE-MESSAGE-TEXT':
+                this._state.dialogsPage.newMessageText = action.newMessageText;
+                this._callSubscriber(this);
+                break;
+        }
     }
 }
 

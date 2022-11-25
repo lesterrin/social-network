@@ -2,23 +2,23 @@ import React from "react";
 import s from './myposts.module.css';
 import Post from "./post";
 
-const MyPosts = ({profilePage, addPost,changeNewPostText}) => {
+const MyPosts = ({profilePage, dispatch}) => {
+
     const posts = profilePage.postsData.map(({id,message,likes}) => {
         return <Post id={id} message={message} likes={likes}/>
     });
 
     const newPostElement = React.createRef();
 
-    const useAddPost = () => {
+    const AddPost = () => {
         let text = newPostElement.current.value;
-        addPost(text);
+        dispatch({type:'ADD-POST', postMessage: text});
     }
 
     const onPostChange = () => {
         let text = newPostElement.current.value;
-        changeNewPostText(text);
+        dispatch({type:'CHANGE-NEW-POST-TEXT', newPostText: text});
     }
-
 
     return (
         <div className={s.my_posts}>
@@ -29,7 +29,7 @@ const MyPosts = ({profilePage, addPost,changeNewPostText}) => {
                     <textarea ref={newPostElement} value={profilePage.newPostText} onChange={onPostChange}/>
                 </div>
                 <div>
-                    <button onClick={useAddPost}>Add post</button>
+                    <button onClick={AddPost}>Add post</button>
                 </div>
             </div>
             <div className={s.posts}>
