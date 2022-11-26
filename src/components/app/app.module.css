@@ -4,7 +4,7 @@
   margin-right: auto;
   margin-left: auto;
 }
-.app-wrapper {
+.app_wrapper {
   background-color: lightsteelblue;
   display: grid;
   grid-auto-columns: 1fr;
@@ -16,7 +16,7 @@
           "content-wrapper";
 }
 
-.content-wrapper {
+.content_wrapper {
   grid-area: content-wrapper;
   display: grid;
   grid-auto-columns: 1fr;
