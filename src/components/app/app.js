@@ -5,10 +5,10 @@ import Header from '../header';
 import Sidebar from '../sidebar';
 import Profile from "../profile";
 import Footer from "../footer";
-import Dialogs from "../dialogs";
 import Music from "../music";
 import News from "../news";
 import Settings from "../settings";
+import DialogsContainer from "../dialogs/dialogs-container";
 
 const App = ({state,dispatch}) => {
   return (
@@ -19,7 +19,7 @@ const App = ({state,dispatch}) => {
        <div className={s.dynamic_column}>
            <Routes>
                <Route path="/profile" element={<Profile profilePage={state.profilePage} dispatch={dispatch}/>} />
-               <Route path="/dialogs" element={<Dialogs dialogsPage={state.dialogsPage} dispatch={dispatch}/>} />
+               <Route path="/dialogs" element={<DialogsContainer dialogsPage={state.dialogsPage} dispatch={dispatch}/>} />
                <Route path="/news" element={<News/>} />
                <Route path="/music" element={<Music/>} />
                <Route path="/settings" element={<Settings/>} />
