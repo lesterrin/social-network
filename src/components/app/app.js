@@ -10,7 +10,8 @@ import News from "../news";
 import Settings from "../settings";
 import DialogsContainer from "../dialogs/dialogs-container";
 
-const App = ({state,dispatch}) => {
+const App = () => {
+
   return (
    <div className={s.app_wrapper}>
      <Header/>
@@ -18,8 +19,8 @@ const App = ({state,dispatch}) => {
        <Sidebar />
        <div className={s.dynamic_column}>
            <Routes>
-               <Route path="/profile" element={<Profile profilePage={state.profilePage} dispatch={dispatch}/>} />
-               <Route path="/dialogs" element={<DialogsContainer dialogsPage={state.dialogsPage} dispatch={dispatch}/>} />
+               <Route path="/profile" element={<Profile />} />
+               <Route path="/dialogs" element={<DialogsContainer />} />
                <Route path="/news" element={<News/>} />
                <Route path="/music" element={<Music/>} />
                <Route path="/settings" element={<Settings/>} />
