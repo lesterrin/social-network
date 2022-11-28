@@ -44,6 +44,14 @@ const Sidebar = () => {
                         }>Settings</div>
                 )}
             </NavLink>
+            <NavLink to='find-users'>
+                {({ isActive}) => (
+                    <div
+                        className={
+                            isActive ? `${s.active} ${s.item}` : s.item
+                        }>Find users</div>
+                )}
+            </NavLink>
         </div>
     );
 }

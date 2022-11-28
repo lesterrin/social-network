@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom"
-
 import s from './app.module.css';
 import Header from '../header';
 import Sidebar from '../sidebar';
@@ -9,6 +8,7 @@ import Music from "../music";
 import News from "../news";
 import Settings from "../settings";
 import DialogsContainer from "../dialogs/dialogs-container";
+import FindUsersContainer from "../find-users/find-users-container";
 
 const App = () => {
 
@@ -24,6 +24,7 @@ const App = () => {
                <Route path="/news" element={<News/>} />
                <Route path="/music" element={<Music/>} />
                <Route path="/settings" element={<Settings/>} />
+               <Route path="/find-users" element={<FindUsersContainer/>} />
            </Routes>
        </div>
      </div>

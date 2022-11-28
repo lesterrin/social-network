@@ -7,7 +7,7 @@
 
 .header {
     grid-area: header;
-    background-color: cornflowerblue;
+    background-color: white;
 }
 
 @media (min-width: 768px) {

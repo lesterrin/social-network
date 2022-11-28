@@ -14,9 +14,9 @@
 }
 
 .sidebar a .item:hover {
-    background-color: lightgrey;
+    background-color: #e5e7eb;
 }
 
 .active {
-    background-color: lightgrey;
+    background-color: #e5e7eb;
 }

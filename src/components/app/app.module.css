@@ -5,7 +5,7 @@
   margin-left: auto;
 }
 .app_wrapper {
-  background-color: lightsteelblue;
+  background-color: #edeef0;
   display: grid;
   grid-auto-columns: 1fr;
   grid-template-columns: 1fr;
