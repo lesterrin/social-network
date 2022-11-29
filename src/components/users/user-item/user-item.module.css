@@ -20,6 +20,9 @@
 }
 .name { grid-area: name; }
 
-.location { grid-area: location; }
+.location {
+    grid-area: location;
+    color: #626d7a
+}
 
 .action { grid-area: action; }
