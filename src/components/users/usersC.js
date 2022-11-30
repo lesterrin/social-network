@@ -6,13 +6,10 @@ import userPhoto from "../../assets/images/user_image.png";
 //При изменении одного элемента перерисовывается весь users. Переделать
 class Users extends React.Component {
 
-    getUsers = () => {
-        const {users, setUsers} = this.props;
-        if (users.length === 0) {
-            axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-                setUsers(response.data.items)
-            });
-        }
+    componentDidMount() {
+        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
+            this.props.setUsers(response.data.items)
+        });
     }
 
     render() {
@@ -27,7 +24,6 @@ class Users extends React.Component {
             <div>
             <h3>FindUsers</h3>
             {usersItems}
-            <button onClick={this.getUsers}>Получить пользователей</button>
         </div>);
     }
 
