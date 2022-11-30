@@ -5,14 +5,25 @@ import userPhoto from "../../assets/images/user_image.png";
 
 //При изменении одного элемента перерисовывается весь users. Переделать
 class Users extends React.Component {
-
     componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-            this.props.setUsers(response.data.items)
+        axios.get('https://social-network.samuraijs.com/api/1.0/users',{
+            params:{
+                count: this.props.pageSize,
+                page: this.props.currentPage
+            }
+        }).then(response => {
+            console.log(response);
+            this.props.setUsers(response.data.items);
+            this.props.setTotalUsers(response.data.totalCount);
         });
     }
 
     render() {
+        const pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
+        let pages = [];
+        for (let i = 1; i <= pagesCount; i++){
+            pages.push(i);
+        }
         const {unfollow, follow, users} = this.props;
         const usersItems = users.map(({id, followed, name, status, photos}) => {
             const onClick = followed ? unfollow : follow;
@@ -24,6 +35,10 @@ class Users extends React.Component {
             <div>
             <h3>FindUsers</h3>
             {usersItems}
+                {pages.map(page=>{
+                    return (<span className={this.props.currentPage === page ? s.currentPage : ''}>{page}</span>);
+                })}
+            <span>Всего страниц: {pagesCount}</span>
         </div>);
     }
 
