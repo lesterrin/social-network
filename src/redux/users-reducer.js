@@ -2,6 +2,7 @@ const FOLLOW_USER = 'FOLLOW-USER';
 const UNFOLLOW_USER = 'UNFOLLOW-USER';
 const SET_USERS = 'SET-USERS';
 const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT';
+const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
 
 const initialState = {
     usersData: [/*
@@ -16,8 +17,8 @@ const initialState = {
         {id: 9, followed: true, name: 'Бараш', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.pinimg.com/474x/38/98/c2/3898c2d0e9611fa6b31e0eb96b5ef02b.jpg'}
     */],
     pageSize: 3,
-    totalUsersCount: 6,
-    currentPage: 4
+    totalUsersCount: 0,
+    currentPage: 1
 
 }
 
@@ -57,13 +58,19 @@ const usersReducer = (state = initialState, action) => {
         case SET_USERS:
             return {
                 ...state,
-                usersData: [...state.usersData,...action.usersData]
+                usersData: [...action.usersData]
             }
 
         case SET_TOTAL_USERS_COUNT:
             return {
                 ...state,
                 totalUsersCount: action.totalCount
+            }
+
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.pageNumber
             }
 
         default:
@@ -75,5 +82,6 @@ export const followActionCreator = (userId) => ({type: FOLLOW_USER, userId: user
 export const unfollowActionCreator = (userId) => ({type: UNFOLLOW_USER, userId: userId})
 export const setUsersActionCreator = (users) => ({type: SET_USERS, usersData: users})
 export const setTotalUsersCountActionCreator = (dig) => ({type: SET_TOTAL_USERS_COUNT, totalCount: dig})
+export const setCurrentPageActionCreator = (pageNumber) => ({type: SET_CURRENT_PAGE, pageNumber: pageNumber})
 
 export default usersReducer;

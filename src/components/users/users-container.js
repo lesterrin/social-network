@@ -1,9 +1,9 @@
 import React from "react";
-import Users from "./usersC";
+import Users from "./users";
 import {connect} from "react-redux";
 import UserItem from "./user-item";
 import {
-    followActionCreator,
+    followActionCreator, setCurrentPageActionCreator,
     setTotalUsersCountActionCreator,
     setUsersActionCreator,
     unfollowActionCreator
@@ -32,7 +32,8 @@ const mapDispatchToProps = (dispatch) => {
         unfollow: (userId) => dispatch(unfollowActionCreator(userId)),
         follow: (userId) => dispatch(followActionCreator(userId)),
         setUsers: (users) => dispatch(setUsersActionCreator(users)),
-        setTotalUsers: (dig) => dispatch(setTotalUsersCountActionCreator(dig))
+        setTotalUsers: (dig) => dispatch(setTotalUsersCountActionCreator(dig)),
+        setCurrentPage: (pageNumber) => dispatch(setCurrentPageActionCreator(pageNumber))
     });
 }
 
