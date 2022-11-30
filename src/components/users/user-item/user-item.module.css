@@ -7,12 +7,17 @@
     grid-auto-flow: row;
     grid-template-areas:
             "avatar name action"
-            "avatar location action";
+            "avatar status action";
     padding: 10px;
     border-bottom: solid 1px #dce1e6;
 }
 
+.user_item:hover {
+    background-color: #edeef0;
+}
+
 .avatar { grid-area: avatar; }
+
 .avatar img{
     width: 75px;
     height: 75px;
@@ -20,8 +25,8 @@
 }
 .name { grid-area: name; }
 
-.location {
-    grid-area: location;
+.status {
+    grid-area: status;
     color: #626d7a
 }
 

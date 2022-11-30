@@ -1,31 +1,30 @@
 import s from './users.module.css';
 import UserItem from "./user-item";
+import axios from "axios";
+import userPhoto from "../../assets/images/user_image.png";
+
 //При изменении одного элемента перерисовывается весь users. Переделать
 const Users = ({users, follow, unfollow, setUsers}) => {
 
-    if(users.length === 0){
-    setUsers([
-        {id: 1, followed: false, name: 'Биби', location: {city: 'ЛунаСити', country:'ЛунаЛэнд'}, avatar: 'https://is3-ssl.mzstatic.com/image/thumb/Purple123/v4/9b/65/59/9b65594e-f506-ee80-5c81-843f7c7e4af2/source/256x256bb.jpg'},
-        {id: 2, followed: true, name: 'Лосяш', location:{city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.ytimg.com/vi/Uoh7Vp5g1nI/maxresdefault.jpg'},
-        {id: 3, followed: true, name: 'Крош', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://tlum.ru/uploads/d6d38ebcf8548d81eb1f4dc3a54ed4d62f98301b8418d226ad19c2ccb440f412.jpeg'},
-        {id: 4, followed: true, name: 'Ежик', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.ytimg.com/vi/0P2m-Bqaaq8/maxresdefault.jpg'},
-        {id: 5, followed: true, name: 'Нюша', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.ytimg.com/vi/lK3xzYGej8w/maxresdefault.jpg'},
-        {id: 6, followed: true, name: 'Пин', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://multsforkids.ru/data/uploads/personaji/pin/pin-kartinki-1.jpg'},
-        {id: 7, followed: true, name: 'Карыч', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://sites.google.com/site/smesarikiclass/_/rsrc/1463455748373/home/kar-karyc/7.png?height=400&width=384'},
-        {id: 8, followed: true, name: 'Совунья', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.pinimg.com/originals/82/22/4f/82224f69c211273de2616dd6b69e8cc6.jpg'},
-        {id: 9, followed: true, name: 'Бараш', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.pinimg.com/474x/38/98/c2/3898c2d0e9611fa6b31e0eb96b5ef02b.jpg'}
-    ]);
+    const getUsers = () => {
+        if (users.length === 0) {
+            axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
+                setUsers(response.data.items)
+            });
+        }
     }
 
-    const usersItems = users.map(({id, followed, name, location, avatar}) => {
+    const usersItems = users.map(({id, followed, name, status, photos}) => {
         const onClick = followed ? unfollow : follow;
-        return <UserItem onClick={onClick} id={id} followed={followed} name={name} location={location} avatar={avatar}/>
+        const avatar = photos.small != null ? photos.small : userPhoto;
+        return <UserItem onClick={onClick} id={id} followed={followed} name={name} status={status} avatar={avatar}/>
     });
 
-    return(
+    return (
         <div>
             <h3>FindUsers</h3>
             {usersItems}
+            <button onClick={getUsers}>Получить пользователей</button>
         </div>
     )
 }
