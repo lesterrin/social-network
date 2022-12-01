@@ -16,7 +16,7 @@ const initialState = {
         {id: 8, followed: true, name: 'Совунья', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.pinimg.com/originals/82/22/4f/82224f69c211273de2616dd6b69e8cc6.jpg'},
         {id: 9, followed: true, name: 'Бараш', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.pinimg.com/474x/38/98/c2/3898c2d0e9611fa6b31e0eb96b5ef02b.jpg'}
     */],
-    pageSize: 3,
+    pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1
 

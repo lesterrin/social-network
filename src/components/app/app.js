@@ -7,8 +7,8 @@ import Footer from "../footer";
 import Music from "../music";
 import News from "../news";
 import Settings from "../settings";
-import DialogsContainer from "../dialogs/dialogs-container";
-import UsersContainer from "../users/users-container";
+import DialogsContainer from "../dialogs";
+import UsersContainer from "../users";
 
 const App = () => {
 

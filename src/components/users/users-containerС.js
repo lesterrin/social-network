@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {
     followActionCreator, setCurrentPageActionCreator,
@@ -9,33 +9,49 @@ import {
 import axios from "axios";
 import UsersPresent from "./usersPresent";
 
-const UsersContainer = ({users, follow, unfollow, setUsers, currentPage, setCurrentPage, setTotalUsers, pageSize, totalUsersCount}) => {
+class UsersContainer extends React.Component {
 
-    useEffect(() => {
+    componentDidMount() {
         axios.get('https://social-network.samuraijs.com/api/1.0/users', {
             params: {
-                count: pageSize,
-                page: currentPage
+                count: this.props.pageSize,
+                page: this.props.currentPage
             }
         }).then(response => {
-            setUsers(response.data.items);
-            setTotalUsers(response.data.totalCount);
+            this.props.setUsers(response.data.items);
+            this.props.setTotalUsers(response.data.totalCount);
         });
-    }, [currentPage]);
-
-    const usersPresentProps = {
-        totalUsersCount: totalUsersCount,
-        pageSize: pageSize,
-        currentPage: currentPage,
-        unfollow: (id) => unfollow(id),
-        follow: (id) => follow(id),
-        users: users,
-        onPageChanged: (page) => setCurrentPage(page)
     }
 
-    return (
-        <UsersPresent {...usersPresentProps}/>
-    );
+    onPageChanged = (page) => {
+        this.props.setCurrentPage(page);
+        axios.get('https://social-network.samuraijs.com/api/1.0/users', {
+            params: {
+                count: this.props.pageSize,
+                page: page
+            }
+        }).then(response => {
+            this.props.setUsers(response.data.items);
+            this.props.setTotalUsers(response.data.totalCount);
+        });
+    }
+
+    render() {
+        const usersPresentProps = {
+            totalUsersCount: this.props.totalUsersCount,
+            pageSize: this.props.pageSize,
+            currentPage: this.props.currentPage,
+            unfollow: (id) => this.props.unfollow(id),
+            follow: (id) => this.props.follow(id),
+            users: this.props.users,
+            onPageChanged: (page) => this.onPageChanged(page)
+        }
+
+        return (
+            <UsersPresent {...usersPresentProps}/>
+        );
+    }
+
 }
 
 const mapStateToProps = (state) => {
