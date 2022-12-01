@@ -23,6 +23,8 @@ const UsersPresent = ({totalUsersCount,pageSize,currentPage,unfollow,follow,user
 
     return (
         <div>
+            {/*Заголовок прогружается с каждым обновлением страницы.
+            Создать обертку Page. Вынести в заголовок в Page.*/}
             <h3>FindUsers</h3>
             {usersItems}
             {slicedPages.map(page => {
