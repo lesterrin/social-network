@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import s from './app.module.css';
 import Header from '../header';
 import Sidebar from '../sidebar';
-import Profile from "../profile";
+import ProfileContainer from "../profile";
 import Footer from "../footer";
 import Music from "../music";
 import News from "../news";
@@ -19,7 +19,7 @@ const App = () => {
        <Sidebar />
        <div className={s.dynamic_column}>
            <Routes>
-               <Route path="/profile" element={<Profile />} />
+               <Route path="/profile" element={<ProfileContainer />} />
                <Route path="/dialogs" element={<DialogsContainer />} />
                <Route path="/news" element={<News/>} />
                <Route path="/music" element={<Music/>} />
