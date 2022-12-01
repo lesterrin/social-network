@@ -1,17 +1,19 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {
-    followActionCreator, setCurrentPageActionCreator,
-    setTotalUsersCountActionCreator,
-    setUsersActionCreator, toggleIsFetchingActionCreator,
-    unfollowActionCreator
+    follow, setCurrentPage,
+    setTotalUsersCount,
+    setUsers, toggleIsFetching,
+    unfollow
 } from "../../redux/users-reducer";
 import axios from "axios";
 import UsersPresent from "./usersPresent";
 import Loader from "../loader";
 
-const UsersContainer = ({users, follow, unfollow, setUsers, currentPage, setCurrentPage,
-                            setTotalUsers, pageSize, totalUsersCount, isFetching, toggleIsFetching}) => {
+const UsersContainer = ({
+                            users, follow, unfollow, setUsers, currentPage, setCurrentPage,
+                            setTotalUsersCount, pageSize, totalUsersCount, isFetching, toggleIsFetching
+                        }) => {
 
     useEffect(() => {
         toggleIsFetching(true);
@@ -22,7 +24,7 @@ const UsersContainer = ({users, follow, unfollow, setUsers, currentPage, setCurr
             }
         }).then(response => {
             setUsers(response.data.items);
-            setTotalUsers(response.data.totalCount);
+            setTotalUsersCount(response.data.totalCount);
             toggleIsFetching(false);
         });
     }, [currentPage]);
@@ -38,7 +40,7 @@ const UsersContainer = ({users, follow, unfollow, setUsers, currentPage, setCurr
     }
 
     return (
-        isFetching ? <Loader /> : <UsersPresent {...usersPresentProps}/>
+        isFetching ? <Loader/> : <UsersPresent {...usersPresentProps}/>
     );
 }
 
@@ -53,7 +55,7 @@ const mapStateToProps = (state) => {
     });
 }
 
-const mapDispatchToProps = (dispatch) => {
+/*const mapDispatchToProps = (dispatch) => {
     return ({
         unfollow: (userId) => dispatch(unfollowActionCreator(userId)),
         follow: (userId) => dispatch(followActionCreator(userId)),
@@ -62,7 +64,14 @@ const mapDispatchToProps = (dispatch) => {
         setCurrentPage: (pageNumber) => dispatch(setCurrentPageActionCreator(pageNumber)),
         toggleIsFetching: (bool)=>dispatch(toggleIsFetchingActionCreator(bool))
     });
-}
+}*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(mapStateToProps, {
+    unfollow,
+    follow,
+    setUsers,
+    setTotalUsersCount,
+    setCurrentPage,
+    toggleIsFetching
+})(UsersContainer);
 

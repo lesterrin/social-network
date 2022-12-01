@@ -1,10 +1,10 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    followActionCreator, setCurrentPageActionCreator,
-    setTotalUsersCountActionCreator,
-    setUsersActionCreator, toggleIsFetchingActionCreator,
-    unfollowActionCreator
+    follow, setCurrentPage,
+    setTotalUsersCount,
+    setUsers, toggleIsFetching,
+    unfollow
 } from "../../redux/users-reducer";
 import axios from "axios";
 import UsersPresent from "./usersPresent";
@@ -21,7 +21,7 @@ class UsersContainer extends React.Component {
             }
         }).then(response => {
             this.props.setUsers(response.data.items);
-            this.props.setTotalUsers(response.data.totalCount);
+            this.props.setTotalUsersCount(response.data.totalCount);
             this.props.toggleIsFetching(false);
         });
     }
@@ -36,7 +36,7 @@ class UsersContainer extends React.Component {
             }
         }).then(response => {
             this.props.setUsers(response.data.items);
-            this.props.setTotalUsers(response.data.totalCount);
+            this.props.setTotalUsersCount(response.data.totalCount);
             this.props.toggleIsFetching(false);
         });
     }
@@ -53,7 +53,7 @@ class UsersContainer extends React.Component {
         }
 
         return (
-            this.props.isFetching ? <Loader /> : <UsersPresent {...usersPresentProps}/>
+            this.props.isFetching ? <Loader/> : <UsersPresent {...usersPresentProps}/>
         );
     }
 
@@ -70,7 +70,7 @@ const mapStateToProps = (state) => {
     });
 }
 
-const mapDispatchToProps = (dispatch) => {
+/*const mapDispatchToProps = (dispatch) => {
     return ({
         unfollow: (userId) => dispatch(unfollowActionCreator(userId)),
         follow: (userId) => dispatch(followActionCreator(userId)),
@@ -79,7 +79,14 @@ const mapDispatchToProps = (dispatch) => {
         setCurrentPage: (pageNumber) => dispatch(setCurrentPageActionCreator(pageNumber)),
         toggleIsFetching: (bool)=>dispatch(toggleIsFetchingActionCreator(bool))
     });
-}
+}*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(mapStateToProps, {
+    unfollow,
+    follow,
+    setUsers,
+    setTotalUsersCount,
+    setCurrentPage,
+    toggleIsFetching
+})(UsersContainer);
 
