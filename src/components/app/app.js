@@ -19,12 +19,13 @@ const App = () => {
        <Sidebar />
        <div className={s.dynamic_column}>
            <Routes>
-               <Route path="/profile" element={<ProfileContainer />} />
+               <Route path="/profile:id" element={<ProfileContainer />} />
                <Route path="/dialogs" element={<DialogsContainer />} />
                <Route path="/news" element={<News/>} />
                <Route path="/music" element={<Music/>} />
                <Route path="/settings" element={<Settings/>} />
                <Route path="/users" element={<UsersContainer/>} />
+               <Route path="*" element={<h2>Ресурс не найден</h2>} />
            </Routes>
        </div>
      </div>
