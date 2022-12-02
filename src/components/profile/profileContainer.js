@@ -1,14 +1,25 @@
-import s from './profile.module.css';
-import ProfileInfo from "./profile_info";
-import MyPostsContainer from "./myposts/mypost-container";
+import Profile from "./profile";
+import React, {useEffect} from "react";
+import axios from "axios";
+import {connect} from "react-redux";
+import {setUserProfile} from "../../redux/profile-reducer";
 
-const Profile = () => {
+const ProfileContainer = (props) => {
+    useEffect(() => {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/2`).then(response => {
+            props.setUserProfile(response.data);
+        })
+    }, []);
+
     return (
-        <div className={s.profile}>
-            <ProfileInfo/>
-            <MyPostsContainer/>
-        </div>
+        <Profile {...props}/>
     );
 }
 
-export default Profile;
+const mapStateToProps = ({profilePage}) => ({
+    userProfile: profilePage.userProfile
+})
+
+export default connect(mapStateToProps, {setUserProfile})(ProfileContainer);
+
+

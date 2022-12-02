@@ -1,6 +1,15 @@
-.profile_image img{
-    width: 100%;
+.profile_info_wrapper {
+    background-color: #edeef0;
+    padding: 15px;
+    border-radius: 5px;
 }
 
-.description_block{
+.avatar {
+    border-radius: 50%;
+    width: 250px
 }
+
+.about_block{
+}
+
+
