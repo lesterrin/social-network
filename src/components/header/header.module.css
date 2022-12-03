@@ -10,6 +10,11 @@
     background-color: white;
 }
 
+.login_block {
+    float: right;
+    color: black;
+}
+
 @media (min-width: 768px) {
     .container {
         width: 750px;

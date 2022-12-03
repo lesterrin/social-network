@@ -9,7 +9,6 @@ class ProfileContainer extends React.Component {
 
     componentDidMount(){
         const uid = this.props.router.params.id ? this.props.router.params.id : 2;
-        console.log(uid);
         axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${uid}`).then(response => {
             this.props.setUserProfile(response.data);
         });
