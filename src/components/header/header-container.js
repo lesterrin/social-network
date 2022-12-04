@@ -4,7 +4,7 @@ import axios from "axios";
 import {connect} from "react-redux";
 import {setAuthUserData} from "../../redux/auth-reducer";
 
-const HeaderContainer = (props) => {
+const HeaderContainer = (props) => { //перенести проверку авторизации из хедера
     useEffect(() => {
         axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
             withCredentials: true
@@ -16,7 +16,6 @@ const HeaderContainer = (props) => {
         })
     }, []);
 
-    console.log(props);
 
     return <Header {...props}/>
 }

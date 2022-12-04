@@ -1,7 +1,9 @@
 import s from './user-item.module.css';
 import {NavLink} from "react-router-dom";
+import axios from "axios";
 
 const UserItem = ({id, name,avatar,status,followed, onClick}) => {
+
     return(
             <div className={s.user_item} key={id}>
                 <div className={s.avatar}><NavLink to={`/profile/${id}`}><img src={avatar}/></NavLink></div>
