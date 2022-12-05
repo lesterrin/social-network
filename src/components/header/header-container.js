@@ -1,16 +1,14 @@
 import Header from "./header";
 import React, {useEffect} from "react";
-import axios from "axios";
 import {connect} from "react-redux";
 import {setAuthUserData} from "../../redux/auth-reducer";
+import {usersAPI} from "../../api/api";
 
 const HeaderContainer = (props) => { //перенести проверку авторизации из хедера
     useEffect(() => {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            withCredentials: true
-        }).then(response => {
-            if (response.data.resultCode === 0) {
-                const {id, email, login} = response.data.data;
+        usersAPI.authMe().then(data => {
+            if (data.resultCode === 0) {
+                const {id, email, login} = data.data;
                 props.setAuthUserData(id, email, login);
             }
         })

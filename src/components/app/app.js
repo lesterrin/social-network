@@ -8,7 +8,7 @@ import News from "../news";
 import Settings from "../settings";
 import DialogsContainer from "../dialogs";
 import UsersContainer from "../users";
-import HeaderContainer from "../header/header-container";
+import HeaderContainer from "../header";
 
 const App = () => {
 

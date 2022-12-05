@@ -8,7 +8,7 @@ import withRouter from "../helpers/withRouter";
 const ProfileContainer = (props) => {
     useEffect(() => {
         const uid = props.router.params.id ? props.router.params.id : 2;
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/2`).then(response => {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${uid}`).then(response => {
             props.setUserProfile(response.data);
         })
     }, []);
