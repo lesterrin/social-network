@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {
     follow, setCurrentPage,
     setTotalUsersCount,
-    setUsers, toggleIsFetching,
+    setUsers, toggleIsFetching, toggleSubscribingProgress,
     unfollow
 } from "../../redux/users-reducer";
 import UsersPresent from "./usersPresent";
@@ -11,7 +11,8 @@ import Loader from "../loader";
 import {usersAPI} from "../../api/api";
 
 const UsersContainer = ({users, follow, unfollow, setUsers, currentPage, setCurrentPage,
-                            setTotalUsersCount, pageSize, totalUsersCount, isFetching, toggleIsFetching
+                            setTotalUsersCount, pageSize, totalUsersCount, isFetching, toggleIsFetching,
+                            toggleSubscribingProgress, subscribingInProgress
                         }) => {
 
     useEffect(() => {
@@ -28,21 +29,26 @@ const UsersContainer = ({users, follow, unfollow, setUsers, currentPage, setCurr
         pageSize: pageSize,
         currentPage: currentPage,
         unfollow: (id) => {
+            toggleSubscribingProgress(true, id);
             usersAPI.unfollowUser(id).then(response => {
                     if (response.data.resultCode === 0) {
                         unfollow(id)
                     }
+                toggleSubscribingProgress(false, id);
                 });
         },
         follow: (id) => {
+            toggleSubscribingProgress(true, id);
             usersAPI.followUser(id).then(response => {
                     if (response.data.resultCode === 0) {
                         follow(id)
                     }
+                toggleSubscribingProgress(false, id);
                 });
         },
         users: users,
-        onPageChanged: (page) => setCurrentPage(page)
+        onPageChanged: (page) => setCurrentPage(page),
+        subscribingInProgress: subscribingInProgress
     }
 
     return (
@@ -57,7 +63,8 @@ const mapStateToProps = (state) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        subscribingInProgress: state.usersPage.subscribingInProgress
     });
 }
 
@@ -67,6 +74,7 @@ export default connect(mapStateToProps, {
     setUsers,
     setTotalUsersCount,
     setCurrentPage,
-    toggleIsFetching
+    toggleIsFetching,
+    toggleSubscribingProgress
 })(UsersContainer);
 

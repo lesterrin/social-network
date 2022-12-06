@@ -4,6 +4,7 @@ const SET_USERS = 'SET-USERS';
 const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT';
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
 const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING';
+const TOGGLE_SUBSCRIBING_PROGRESS = 'TOGGLE-SUBSCRIBING-PROGRESS';
 
 const initialState = {
     usersData: [/*
@@ -20,7 +21,8 @@ const initialState = {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    subscribingInProgress: []
 
 }
 
@@ -30,8 +32,8 @@ const usersReducer = (state = initialState, action) => {
         case FOLLOW_USER:
             return {
                 ...state,
-                usersData: state.usersData.map(user=>{
-                    if(action.userId===user.id){
+                usersData: state.usersData.map(user => {
+                    if (action.userId === user.id) {
                         return {
                             ...user,
                             followed: true
@@ -45,8 +47,8 @@ const usersReducer = (state = initialState, action) => {
         case UNFOLLOW_USER:
             return {
                 ...state,
-                usersData: state.usersData.map(user=>{
-                    if(action.userId===user.id){
+                usersData: state.usersData.map(user => {
+                    if (action.userId === user.id) {
                         return {
                             ...user,
                             followed: false
@@ -76,9 +78,17 @@ const usersReducer = (state = initialState, action) => {
             }
 
         case TOGGLE_IS_FETCHING:
-            return{
+            return {
                 ...state,
                 isFetching: action.isFetching
+            }
+
+        case TOGGLE_SUBSCRIBING_PROGRESS:
+            return {
+                ...state,
+                subscribingInProgress: action.isFetching
+                    ? [...state.subscribingInProgress, action.id]
+                    : state.subscribingInProgress.filter(id => id !== action.id)
             }
 
         default:
@@ -92,5 +102,6 @@ export const setUsers = (users) => ({type: SET_USERS, usersData: users})
 export const setTotalUsersCount = (dig) => ({type: SET_TOTAL_USERS_COUNT, totalCount: dig})
 export const setCurrentPage = (pageNumber) => ({type: SET_CURRENT_PAGE, pageNumber: pageNumber})
 export const toggleIsFetching = (bool) => ({type: TOGGLE_IS_FETCHING, isFetching: bool})
+export const toggleSubscribingProgress = (bool,id) => ({type: TOGGLE_SUBSCRIBING_PROGRESS, isFetching: bool, id: id})
 
 export default usersReducer;
