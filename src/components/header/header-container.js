@@ -1,17 +1,11 @@
 import Header from "./header";
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {setAuthUserData} from "../../redux/auth-reducer";
-import {usersAPI} from "../../api/api";
+import {authMe} from "../../redux/auth-reducer";
 
 const HeaderContainer = (props) => { //перенести проверку авторизации из хедера
     useEffect(() => {
-        usersAPI.authMe().then(data => {
-            if (data.resultCode === 0) {
-                const {id, email, login} = data.data;
-                props.setAuthUserData(id, email, login);
-            }
-        })
+       props.authMe();
     }, []);
 
 
@@ -25,4 +19,4 @@ const mapStateToProps = ({auth}) => ({
     isAuth: auth.isAuth
 });
 
-export default connect(mapStateToProps, {setAuthUserData})(HeaderContainer);
+export default connect(mapStateToProps, {authMe})(HeaderContainer);

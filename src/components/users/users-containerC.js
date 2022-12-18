@@ -1,34 +1,20 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    follow, setCurrentPage,
-    setTotalUsersCount,
-    setUsers, toggleIsFetching,
-    unfollow
+    followUser, getUsers, setCurrentPage, toggleSubscribingProgress,
+    unfollowUser
 } from "../../redux/users-reducer";
 import UsersPresent from "./usersPresent";
 import Loader from "../loader";
-import {usersAPI} from "../../api/api";
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-        this.props.toggleIsFetching(true);
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-            this.props.setUsers(data.items);
-            this.props.setTotalUsersCount(data.totalCount);
-            this.props.toggleIsFetching(false);
-        });
+        this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChanged = (page) => {
-        this.props.setCurrentPage(page);
-        this.props.toggleIsFetching(true);
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-            this.props.setUsers(data.items);
-            this.props.setTotalUsersCount(data.totalCount);
-            this.props.toggleIsFetching(false);
-        });
+        this.props.getUsers(page, this.props.pageSize);
     }
 
     render() {
@@ -36,22 +22,11 @@ class UsersContainer extends React.Component {
             totalUsersCount: this.props.totalUsersCount,
             pageSize: this.props.pageSize,
             currentPage: this.props.currentPage,
-            unfollow: (id) =>{
-                usersAPI.unfollowUser(id).then(response => {
-                        if(response.data.resultCode===0){
-                            unfollow(id)
-                        }
-                    });
-            },
-            follow: (id) => {
-                usersAPI.followUser(id).then(response => {
-                        if(response.data.resultCode===0){
-                            follow(id)
-                        }
-                    });
-            },
+            unfollow: (userId) => this.props.unfollowUser(userId),
+            follow: (userId) => this.props.followUser(userId),
             users: this.props.users,
-            onPageChanged: (page) => this.onPageChanged(page)
+            onPageChanged: (page) => this.onPageChanged(page),
+            subscribingInProgress: this.props.subscribingInProgress
         }
 
         return (
@@ -68,16 +43,16 @@ const mapStateToProps = (state) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        subscribingInProgress: state.usersPage.subscribingInProgress
     });
 }
 
 export default connect(mapStateToProps, {
-    unfollow,
-    follow,
-    setUsers,
-    setTotalUsersCount,
     setCurrentPage,
-    toggleIsFetching
+    toggleSubscribingProgress,
+    getUsers,
+    followUser,
+    unfollowUser
 })(UsersContainer);
 

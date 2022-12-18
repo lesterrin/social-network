@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 const FOLLOW_USER = 'FOLLOW-USER';
 const UNFOLLOW_USER = 'UNFOLLOW-USER';
 const SET_USERS = 'SET-USERS';
@@ -7,17 +9,7 @@ const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING';
 const TOGGLE_SUBSCRIBING_PROGRESS = 'TOGGLE-SUBSCRIBING-PROGRESS';
 
 const initialState = {
-    usersData: [/*
-        {id: 1, followed: false, name: 'Биби', location: {city: 'ЛунаСити', country:'ЛунаЛэнд'}, avatar: 'https://is3-ssl.mzstatic.com/image/thumb/Purple123/v4/9b/65/59/9b65594e-f506-ee80-5c81-843f7c7e4af2/source/256x256bb.jpg'},
-        {id: 2, followed: true, name: 'Лосяш', location:{city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.ytimg.com/vi/Uoh7Vp5g1nI/maxresdefault.jpg'},
-        {id: 3, followed: true, name: 'Крош', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://tlum.ru/uploads/d6d38ebcf8548d81eb1f4dc3a54ed4d62f98301b8418d226ad19c2ccb440f412.jpeg'},
-        {id: 4, followed: true, name: 'Ежик', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.ytimg.com/vi/0P2m-Bqaaq8/maxresdefault.jpg'},
-        {id: 5, followed: true, name: 'Нюша', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.ytimg.com/vi/lK3xzYGej8w/maxresdefault.jpg'},
-        {id: 6, followed: true, name: 'Пин', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://multsforkids.ru/data/uploads/personaji/pin/pin-kartinki-1.jpg'},
-        {id: 7, followed: true, name: 'Карыч', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://sites.google.com/site/smesarikiclass/_/rsrc/1463455748373/home/kar-karyc/7.png?height=400&width=384'},
-        {id: 8, followed: true, name: 'Совунья', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.pinimg.com/originals/82/22/4f/82224f69c211273de2616dd6b69e8cc6.jpg'},
-        {id: 9, followed: true, name: 'Бараш', location: {city: 'ЛолболлСити', country:'Лолболл Айленд'}, avatar: 'https://i.pinimg.com/474x/38/98/c2/3898c2d0e9611fa6b31e0eb96b5ef02b.jpg'}
-    */],
+    usersData: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
@@ -96,12 +88,47 @@ const usersReducer = (state = initialState, action) => {
     }
 }
 //action creators
-export const follow = (userId) => ({type: FOLLOW_USER, userId: userId})
-export const unfollow = (userId) => ({type: UNFOLLOW_USER, userId: userId})
+export const followSuccess = (userId) => ({type: FOLLOW_USER, userId: userId})
+export const unfollowSuccess = (userId) => ({type: UNFOLLOW_USER, userId: userId})
 export const setUsers = (users) => ({type: SET_USERS, usersData: users})
 export const setTotalUsersCount = (dig) => ({type: SET_TOTAL_USERS_COUNT, totalCount: dig})
 export const setCurrentPage = (pageNumber) => ({type: SET_CURRENT_PAGE, pageNumber: pageNumber})
 export const toggleIsFetching = (bool) => ({type: TOGGLE_IS_FETCHING, isFetching: bool})
-export const toggleSubscribingProgress = (bool,id) => ({type: TOGGLE_SUBSCRIBING_PROGRESS, isFetching: bool, id: id})
+export const toggleSubscribingProgress = (bool, id) => ({type: TOGGLE_SUBSCRIBING_PROGRESS, isFetching: bool, id: id})
+
+//thunk creators
+export const getUsers = (currentPage,pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetching(true));
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false));
+            dispatch(setUsers(data.items));
+            dispatch(setTotalUsersCount(data.totalCount));
+        });
+    }
+}
+export const unfollowUser = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleSubscribingProgress(true, userId));
+        usersAPI.unfollowUser(userId).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(unfollowSuccess(userId));
+            }
+            dispatch(toggleSubscribingProgress(false, userId));
+        });
+    }
+}
+
+export const followUser = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleSubscribingProgress(true, userId));
+        usersAPI.followUser(userId).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(followSuccess(userId));
+            }
+            dispatch(toggleSubscribingProgress(false, userId));
+        });
+    }
+}
 
 export default usersReducer;

@@ -18,6 +18,9 @@ export const usersAPI = {
         }).then(response => response.data);
     },
     followUser: (id) => instance.post(`follow/${id}`),
-    unfollowUser: (id) => instance.delete(`follow/${id}`),
+    unfollowUser: (id) => instance.delete(`follow/${id}`)
+}
+
+export const authAPI = {
     authMe: () => instance.get(`auth/me`).then(response => response.data)
 }

@@ -1,51 +1,29 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {
-    follow, setCurrentPage,
+    followUser, getUsers, setCurrentPage,
     setTotalUsersCount,
-    setUsers, toggleIsFetching, toggleSubscribingProgress,
-    unfollow
+    setUsers, toggleIsFetching,
+    unfollowUser
 } from "../../redux/users-reducer";
 import UsersPresent from "./usersPresent";
 import Loader from "../loader";
-import {usersAPI} from "../../api/api";
 
-const UsersContainer = ({users, follow, unfollow, setUsers, currentPage, setCurrentPage,
-                            setTotalUsersCount, pageSize, totalUsersCount, isFetching, toggleIsFetching,
-                            toggleSubscribingProgress, subscribingInProgress
+const UsersContainer = ({
+                            users, followUser, unfollowUser, currentPage, setCurrentPage,
+                            pageSize, totalUsersCount, isFetching, subscribingInProgress, getUsers
                         }) => {
 
     useEffect(() => {
-        toggleIsFetching(true);
-        usersAPI.getUsers(currentPage, pageSize).then(data => {
-            setUsers(data.items);
-            setTotalUsersCount(data.totalCount);
-            toggleIsFetching(false);
-        });
+        getUsers(currentPage, pageSize);
     }, [currentPage]);
 
     const usersPresentProps = {
         totalUsersCount: totalUsersCount,
         pageSize: pageSize,
         currentPage: currentPage,
-        unfollow: (id) => {
-            toggleSubscribingProgress(true, id);
-            usersAPI.unfollowUser(id).then(response => {
-                    if (response.data.resultCode === 0) {
-                        unfollow(id)
-                    }
-                toggleSubscribingProgress(false, id);
-                });
-        },
-        follow: (id) => {
-            toggleSubscribingProgress(true, id);
-            usersAPI.followUser(id).then(response => {
-                    if (response.data.resultCode === 0) {
-                        follow(id)
-                    }
-                toggleSubscribingProgress(false, id);
-                });
-        },
+        unfollow: (userId) => unfollowUser(userId),
+        follow: (userId) => followUser(userId),
         users: users,
         onPageChanged: (page) => setCurrentPage(page),
         subscribingInProgress: subscribingInProgress
@@ -69,12 +47,12 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-    unfollow,
-    follow,
     setUsers,
     setTotalUsersCount,
     setCurrentPage,
     toggleIsFetching,
-    toggleSubscribingProgress
+    getUsers,
+    unfollowUser,
+    followUser
 })(UsersContainer);
 

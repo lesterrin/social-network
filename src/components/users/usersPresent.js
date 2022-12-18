@@ -3,7 +3,7 @@ import * as React from "react";
 import userPhoto from "../../assets/images/user_image.png";
 import UserItem from "./user-item";
 
-const UsersPresent = ({totalUsersCount,pageSize,currentPage,unfollow,follow,users,onPageChanged,subscribingInProgress}) => {
+const UsersPresent = ({totalUsersCount, pageSize, currentPage, unfollow, follow, users, onPageChanged, subscribingInProgress}) => {
 
     const pagesCount = Math.ceil(totalUsersCount / pageSize);
     let pages = [];
@@ -18,7 +18,8 @@ const UsersPresent = ({totalUsersCount,pageSize,currentPage,unfollow,follow,user
     const usersItems = users.map(({id, followed, name, status, photos}) => {
         const onClick = followed ? unfollow : follow;
         const avatar = photos.small != null ? photos.small : userPhoto;
-        return <UserItem onClick={onClick} id={id} followed={followed} subscribingInProgress={subscribingInProgress} name={name} status={status} avatar={avatar}/>
+        return <UserItem key={id} onClick={onClick} id={id} followed={followed}
+                         subscribingInProgress={subscribingInProgress} name={name} status={status} avatar={avatar}/>
     });
 
     return (
