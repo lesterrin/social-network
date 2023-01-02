@@ -1,10 +1,9 @@
 import s from './profile.module.css';
 import ProfileInfo from "./profile_info";
 import MyPostsContainer from "./myposts/mypost-container";
-import {Navigate} from "react-router-dom";
 import React from "react";
 
-const Profile = ({userProfile, isAuth}) => {
+const Profile = ({userProfile}) => {
 
     return (
         <div className={s.profile}>

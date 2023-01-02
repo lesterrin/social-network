@@ -11,6 +11,8 @@ const ProfileInfo = ({profile}) => {
         <div className={s.profile_info_wrapper}>
             <div className={s.about_block}>
                 <img className={s.avatar} src={profile.photos.large}/>
+                <div>{profile.userId}</div>
+                <div>{profile.fullName}</div>
                 <div className={s.description}>
                     {profile.aboutMe}
                 </div>
