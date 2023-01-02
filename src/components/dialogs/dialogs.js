@@ -1,7 +1,10 @@
 import React from "react";
 import s from './dialogs.module.css';
+import {Navigate} from 'react-router-dom';
 
-const Dialogs = ({messages, dialogs,sendMessage,onMessageChange, newMessageText}) => {
+const Dialogs = ({messages, dialogs,sendMessage,onMessageChange, newMessageText, isAuth}) => {
+
+    if (!isAuth) return <Navigate to='/login'/>
 
     const newMessage = React.createRef();
 
