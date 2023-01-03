@@ -1,7 +1,7 @@
 import {useLocation, useNavigate, useParams} from "react-router";
 import React from "react";
 
-const withRouter = (Component) => {
+const withRouter = (Component) => { //Разве это не hoc?
     const ComponentWithRouterProp = (props) => {
         let location = useLocation();
         let navigate = useNavigate();

@@ -8,6 +8,8 @@ import {
 } from "../../redux/users-reducer";
 import UsersPresent from "./usersPresent";
 import Loader from "../loader";
+import withAuthRedirect from "../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 const UsersContainer = ({
                             users, followUser, unfollowUser, currentPage, setCurrentPage,
@@ -46,13 +48,16 @@ const mapStateToProps = (state) => {
     });
 }
 
-export default connect(mapStateToProps, {
-    setUsers,
-    setTotalUsersCount,
-    setCurrentPage,
-    toggleIsFetching,
-    getUsers,
-    unfollowUser,
-    followUser
-})(UsersContainer);
+export default compose(
+    connect(mapStateToProps, {
+        setUsers,
+        setTotalUsersCount,
+        setCurrentPage,
+        toggleIsFetching,
+        getUsers,
+        unfollowUser,
+        followUser
+    }),
+    withAuthRedirect
+)(UsersContainer);
 
