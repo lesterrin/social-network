@@ -1,13 +1,14 @@
 import React from "react";
-import s from './profile_info.module.css';
+import s from './profileInfo.module.css';
 import Loader from "../../loader";
+import ProfileStatus from './profileStatus';
 
 const ProfileInfo = ({profile}) => {
-    if(profile === null) {
-        return <Loader />
+    if (profile === null) {
+        return <Loader/>
     }
 
-    return(
+    return (
         <div className={s.profile_info_wrapper}>
             <div className={s.about_block}>
                 <img className={s.avatar} src={profile.photos.large}/>
@@ -17,6 +18,7 @@ const ProfileInfo = ({profile}) => {
                     {profile.aboutMe}
                 </div>
             </div>
+            <ProfileStatus status={'Hello world'}/>
         </div>
     );
 }
