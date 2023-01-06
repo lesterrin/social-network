@@ -8,8 +8,14 @@ const instance = axios.create({
     }
 })
 
+export const profileAPI = {
+    getProfile: (uid) => instance.get(`profile/${uid}`),
+    getProfileStatus: (uid) => instance.get(`profile/status/${uid}`),
+    updateProfileStatus: (status) => instance.put(`profile/status`,{status})
+}
+
 export const usersAPI = {
-    getUsers: (currentPage = 1, pageSize = 10) => { //Сейчас DAL взаимодействует с UI, а должен (наверное) с BLL. Почитать, переделать
+    getUsers: (currentPage = 1, pageSize = 10) => {
         return instance.get(`users`, {
             params: {
                 count: pageSize,

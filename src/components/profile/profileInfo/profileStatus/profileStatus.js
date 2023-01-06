@@ -1,34 +1,46 @@
 import s from './profileStatus.module.css';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import * as React from "react";
 
-const ProfileStatus = ({status}) => {
+const ProfileStatus = ({status, updateProfileStatus}) => {
+
+    //Есть баг. Значение статуса, почему-то, не всегда подгружается в input
+    const [state, setState] = useState({editMode: false, status: status});
 
     const activateEditMode = () => {
         setState({
+            ...state,
             editMode: true
         });
     }
 
     const deactivateEditMode = () => {
         setState({
+            ...state,
             editMode: false
         });
+
+        updateProfileStatus(state.status);
     }
 
-    const [state, setState] = useState({editMode: false})
+    const onStatusChange = (e) => {
+        setState({
+            ...state,
+            status: e.currentTarget.value
+        });
+    }
 
     return (
         <div>
             <div>
                 {state.editMode ?
                     <div>
-                        <input autoFocus={true} onBlur={deactivateEditMode} value={status}/>
-                        <button>Сохранить</button>
+                        <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
+                               value={state.status}/>
                     </div>
                     :
                     <div>
-                        <span onClick={activateEditMode}>{status}</span>
+                        <span onClick={activateEditMode}>{status || '--no status--'}</span>
                     </div>
                 }
             </div>

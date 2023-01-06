@@ -2,8 +2,10 @@ import React from "react";
 import s from './profileInfo.module.css';
 import Loader from "../../loader";
 import ProfileStatus from './profileStatus';
+import Profile from "../profile";
 
-const ProfileInfo = ({profile}) => {
+const ProfileInfo = ({profile,profileStatus, updateProfileStatus}) => {
+
     if (profile === null) {
         return <Loader/>
     }
@@ -18,7 +20,7 @@ const ProfileInfo = ({profile}) => {
                     {profile.aboutMe}
                 </div>
             </div>
-            <ProfileStatus status={'Hello world'}/>
+            <ProfileStatus status={profileStatus} updateProfileStatus={updateProfileStatus}/>
         </div>
     );
 }

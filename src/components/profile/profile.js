@@ -3,11 +3,10 @@ import ProfileInfo from "./profileInfo";
 import MyPostsContainer from "./myposts/mypost-container";
 import React from "react";
 
-const Profile = ({userProfile}) => {
-
+const Profile = (props) => {
     return (
         <div className={s.profile}>
-            <ProfileInfo profile={userProfile}/>
+            <ProfileInfo {...props}/>
             <MyPostsContainer />
         </div>
     );
