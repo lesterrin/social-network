@@ -9,7 +9,7 @@ import Settings from "../settings";
 import DialogsContainer from "../dialogs";
 import UsersContainer from "../users";
 import HeaderContainer from "../header";
-import Login from "../login";
+import LoginContainer from "../login";
 
 const App = () => {
 
@@ -28,7 +28,7 @@ const App = () => {
                         <Route path="/music" element={<Music/>}/>
                         <Route path="/settings" element={<Settings/>}/>
                         <Route path="/users" element={<UsersContainer/>}/>
-                        <Route path="/login" element={<Login />}/>
+                        <Route path="/login" element={<LoginContainer />}/>
                         <Route path="*" element={<h2>Ресурс не найден</h2>}/>
                     </Routes>
                 </div>
