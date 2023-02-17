@@ -4,3 +4,14 @@
 .posts{
     margin-top:5px;
 }
+
+textarea{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    outline:none;
+}
+
+.error{
+    border: solid 2px darkred;
+}

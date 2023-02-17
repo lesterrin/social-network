@@ -1,6 +1,6 @@
 import React from "react";
 import s from './profileInfo.module.css';
-import Loader from "../../loader";
+import Loader from "../../common/loader";
 import ProfileStatus from './profileStatus';
 import Profile from "../profile";
 

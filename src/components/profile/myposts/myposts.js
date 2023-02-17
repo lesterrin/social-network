@@ -1,18 +1,24 @@
 import React from "react";
 import s from './myposts.module.css';
+import {maxLength} from "../../common/validators";
 
-const MyPosts = ({newPostText, posts,addPost,changeNewPostText}) => {
+const MyPosts = ({newPostText, posts, addPost, changeNewPostText}) => {
 
     const newPostElement = React.createRef();
 
     const onAddPost = () => {
         const text = newPostElement.current.value;
-        addPost(text);
+
+        if (newPostText) addPost(text);
+        else newPostElement.current.classList.add(s.error);
     }
 
     const onPostChange = () => {
         const text = newPostElement.current.value;
-        changeNewPostText(text);
+        if (maxLength(text, 30)) {
+            changeNewPostText(text);
+            newPostElement.current.classList.remove(s.error)
+        } else newPostElement.current.classList.add(s.error);
     }
 
     return (
