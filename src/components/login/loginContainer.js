@@ -2,13 +2,14 @@ import Login from "./login";
 import {connect} from "react-redux";
 import {
     toggleIsRememberMeActionCreator,
-    changeLoginActionCreator,
+    changeEmailActionCreator,
     changePasswordActionCreator, changeErrorsListActionCreator
 } from "../../redux/login-reducer";
+import {login} from "../../redux/auth-reducer";
 
 const mapStateToProps = ({loginPage}) => {
     return ({
-        login: loginPage.login,
+        email: loginPage.email,
         password: loginPage.password,
         isRememberMe: loginPage.isRememberMe,
         errorsList: loginPage.errorsList
@@ -17,10 +18,11 @@ const mapStateToProps = ({loginPage}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        changeLogin: (login) => dispatch(changeLoginActionCreator(login)),
+        changeEmail: (login) => dispatch(changeEmailActionCreator(login)),
         changePassword: (password) => dispatch(changePasswordActionCreator(password)),
         toggleIsRememberMe: (isRememberMe) => dispatch(toggleIsRememberMeActionCreator(isRememberMe)),
-        changeErrorsList: (error) => dispatch(changeErrorsListActionCreator(error))
+        changeErrorsList: (error) => dispatch(changeErrorsListActionCreator(error)),
+        login
     });
 };
 

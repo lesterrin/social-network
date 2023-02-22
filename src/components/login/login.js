@@ -2,9 +2,9 @@ import React from "react";
 import {maxLength, required} from "../common/validators";
 import s from "./login.module.css";
 
-const LoginForm = ({login, password, isRememberMe, changeLogin, changePassword, changeErrorsList, toggleIsRememberMe, errorsList}) => {
+const LoginForm = ({email, password, isRememberMe, changeEmail, changePassword, changeErrorsList, toggleIsRememberMe, errorsList, login}) => {
 
-    const loginElement = React.createRef();
+    const emailElement = React.createRef();
     const passwordElement = React.createRef();
     const isRememberMeElement = React.createRef();
     const errorsWrapper = React.createRef();
@@ -12,10 +12,11 @@ const LoginForm = ({login, password, isRememberMe, changeLogin, changePassword, 
     const errors = errorsList.map(e=><div>{e}</div>);
 
     const handleSubmit = (e) => {
-        if (required(login) && required(password)) {
+        if (required(email) && required(password)) {
             errorsWrapper.current.classList.add(s.hidden);
             changeErrorsList([]);
-            console.log('авторизован');
+            console.log(login);
+            login(email,password,isRememberMe);
         } else {
             errorsWrapper.current.classList.remove(s.hidden);
             changeErrorsList(['Все поля должны быть заполнены']);
@@ -23,18 +24,18 @@ const LoginForm = ({login, password, isRememberMe, changeLogin, changePassword, 
         e.preventDefault();
     }
 
-    const onLoginChange = () => {
-        const login = loginElement.current.value;
-        const valid = maxLength(login, 16);
+    const onEmailChange = () => {
+        const email = emailElement.current.value;
+        const valid = maxLength(email, 30);
         if (valid) {
-            loginElement.current.classList.remove(s.error)
-            changeLogin(login)
-        } else loginElement.current.classList.add(s.error)
+            emailElement.current.classList.remove(s.error)
+            changeEmail(email)
+        } else emailElement.current.classList.add(s.error)
     }
 
     const onPasswordChange = () => {
         const pass = passwordElement.current.value;
-        const valid = maxLength(pass, 16);
+        const valid = maxLength(pass, 30);
         if (valid) {
             passwordElement.current.classList.remove(s.error)
             changePassword(pass);
@@ -53,7 +54,7 @@ const LoginForm = ({login, password, isRememberMe, changeLogin, changePassword, 
             </div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <input name='login' placeholder='Login' value={login} onChange={onLoginChange} ref={loginElement}/>
+                    <input name='уьфшд' placeholder='email' value={email} onChange={onEmailChange} ref={emailElement}/>
                 </div>
                 <div>
                     <input name='password' placeholder='Password' type='password' value={password}

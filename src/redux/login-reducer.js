@@ -1,10 +1,10 @@
-const CHANGE_LOGIN = 'CHANGE-LOGIN';
+const CHANGE_EMAIL = 'CHANGE-EMAIL';
 const CHANGE_PASSWORD = 'CHANGE-PASSWORD';
 const TOGGLE_IS_REMEMBER_ME = 'TOGGLE-IS-REMEMBER-ME';
 const CHANGE_ERRORS_LIST = 'CHANGE-ERRORS-LIST';
 
 const initialState = {
-    login: '',
+    email: '',
     password: '',
     isRememberMe: true,
     errorsList: []
@@ -12,10 +12,10 @@ const initialState = {
 
 const loginReducer = (state = initialState, action) => {
     switch (action.type){
-        case CHANGE_LOGIN:
+        case CHANGE_EMAIL:
             return {
                 ...state,
-                login: action.login
+                email: action.email
             }
 
         case CHANGE_PASSWORD:
@@ -40,7 +40,7 @@ const loginReducer = (state = initialState, action) => {
     }
 }
 
-export const changeLoginActionCreator = (login) => ({type: CHANGE_LOGIN,login: login});
+export const changeEmailActionCreator = (email) => ({type: CHANGE_EMAIL,email: email});
 export const changePasswordActionCreator = (password) => ({type: CHANGE_PASSWORD,password: password});
 export const toggleIsRememberMeActionCreator = (isRememberMe) => ({type: TOGGLE_IS_REMEMBER_ME,isRememberMe: isRememberMe});
 export const changeErrorsListActionCreator = (errors) => ({type: CHANGE_ERRORS_LIST,errors: errors});

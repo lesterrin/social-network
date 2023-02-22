@@ -19,7 +19,7 @@ const ProfileStatus = ({status, updateProfileStatus}) => {
             ...state,
             editMode: false
         });
-
+        console.log(updateProfileStatus);
         updateProfileStatus(state.status);
     }
 
