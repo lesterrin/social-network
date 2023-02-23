@@ -26,8 +26,7 @@ const mapStateToProps = ({profilePage}) => ({
 
 export default compose(
     connect(mapStateToProps, {getUserProfile, getProfileStatus, updateProfileStatus}),
-    withRouter,
-    withAuthRedirect
+    withRouter
 )(ProfileContainer);
 
 

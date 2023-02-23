@@ -1,6 +1,7 @@
 import React from "react";
 import {maxLength, required} from "../common/validators";
 import s from "./login.module.css";
+import {Navigate} from "react-router-dom";
 
 const LoginForm = ({email, password, isRememberMe, changeEmail, changePassword, changeErrorsList, toggleIsRememberMe, errorsList, login}) => {
 
@@ -9,14 +10,13 @@ const LoginForm = ({email, password, isRememberMe, changeEmail, changePassword, 
     const isRememberMeElement = React.createRef();
     const errorsWrapper = React.createRef();
 
-    const errors = errorsList.map(e=><div>{e}</div>);
+    const errors = errorsList.map(e => <div>{e}</div>);
 
     const handleSubmit = (e) => {
         if (required(email) && required(password)) {
             errorsWrapper.current.classList.add(s.hidden);
             changeErrorsList([]);
-            console.log(login);
-            login(email,password,isRememberMe);
+            login(email, password, isRememberMe);
         } else {
             errorsWrapper.current.classList.remove(s.hidden);
             changeErrorsList(['Все поля должны быть заполнены']);
@@ -74,12 +74,16 @@ const LoginForm = ({email, password, isRememberMe, changeEmail, changePassword, 
 }
 
 const Login = (props) => {
-    return (
-        <div>
-            <h1>Login</h1>
-            <LoginForm {...props}/>
-        </div>
-    )
+    if (!props.isAuth) {
+        return (
+            <div>
+                <h1>Login</h1>
+                <LoginForm {...props}/>
+            </div>
+        )
+    } else {
+        return <Navigate to="/profile"/>
+    }
 }
 
 export default Login;

@@ -1,7 +1,7 @@
 import Header from "./header";
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {authMe} from "../../redux/auth-reducer";
+import {authMe,logout} from "../../redux/auth-reducer";
 
 const HeaderContainer = (props) => { //перенести проверку авторизации из хедера
     useEffect(() => {
@@ -19,4 +19,4 @@ const mapStateToProps = ({auth}) => ({
     isAuth: auth.isAuth
 });
 
-export default connect(mapStateToProps, {authMe})(HeaderContainer);
+export default connect(mapStateToProps, {authMe,logout})(HeaderContainer);

@@ -10,6 +10,7 @@ import DialogsContainer from "../dialogs";
 import UsersContainer from "../users";
 import HeaderContainer from "../header";
 import LoginContainer from "../login";
+import React from "react";
 
 const App = () => {
 

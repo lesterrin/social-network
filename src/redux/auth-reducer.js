@@ -1,5 +1,4 @@
 import {authAPI} from "../api/api";
-import {setProfileStatus} from "./profile-reducer";
 
 const SET_AUTH_USER_DATA = 'SET-AUTH-USER-DATA';
 
@@ -46,6 +45,7 @@ export const authMe = () => {
 export const login = (email, password, isRememberMe) => {
     return (dispatch) => {
         authAPI.login(email, password, isRememberMe).then(data => {
+            console.log(data);
             if (data.resultCode === 0) {
                 dispatch(authMe());
             } else {
@@ -57,11 +57,14 @@ export const login = (email, password, isRememberMe) => {
 
 export const logout = () => {
     return (dispatch) => {
-        authAPI.logout().then(data => {
-            if (data.resultCode === 0) {
+        authAPI.logout().then(response => {
+            if (response.data.resultCode === 0) {
                 dispatch(setAuthUserData(null, null, null, false));
             } else {
-                console.log(`что-то пошло не так. logout auth-reducer`);
+                console.log(`Сервер отклонил попытку авторизации`);
+                if (response.data.resultCode === 10) {
+                    console.log(`Слишком много неудачных попыток. Сервер запросил заполнение капчи. На данный момент капча не реализована`);
+                }
             }
         })
     }
