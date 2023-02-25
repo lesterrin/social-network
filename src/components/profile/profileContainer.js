@@ -6,10 +6,10 @@ import withRouter from "../helpers/withRouter";
 import withAuthRedirect from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 
-const ProfileContainer = ({getUserProfile,getProfileStatus,userProfile,profileStatus,updateProfileStatus,router}) => {
+const ProfileContainer = ({getUserProfile,getProfileStatus,userProfile,profileStatus,updateProfileStatus,router,userId}) => {
 
     useEffect(() => {
-        const uid = router.params.id ? router.params.id : 26966;
+        const uid = router.params.id ? router.params.id : userId;
         getUserProfile(uid);
         getProfileStatus(uid);
     }, [profileStatus]);
@@ -19,9 +19,10 @@ const ProfileContainer = ({getUserProfile,getProfileStatus,userProfile,profileSt
     );
 }
 
-const mapStateToProps = ({profilePage}) => ({
+const mapStateToProps = ({profilePage,auth}) => ({
     userProfile: profilePage.userProfile,
-    profileStatus: profilePage.profileStatus
+    profileStatus: profilePage.profileStatus,
+    userId: auth.userId
 })
 
 export default compose(

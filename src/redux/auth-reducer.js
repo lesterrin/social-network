@@ -1,6 +1,7 @@
 import {authAPI} from "../api/api";
 
 const SET_AUTH_USER_DATA = 'SET-AUTH-USER-DATA';
+const SET_AUTH_ERROR = 'SET-AUTH-ERROR';
 
 const initialState = {
     userId: null,
@@ -16,7 +17,14 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.data,
-                isAuth: true
+                isAuth: true,
+                authError: false
+            }
+
+        case SET_AUTH_ERROR:
+            return {
+                ...state,
+                authError: true
             }
 
         default:
@@ -28,6 +36,10 @@ const authReducer = (state = initialState, action) => {
 export const setAuthUserData = (userId, email, login, isAuth) => ({
     type: SET_AUTH_USER_DATA,
     data: {userId, email, login, isAuth}
+});
+
+export const setAuthError = () => ({
+    type: SET_AUTH_ERROR
 });
 
 //thunk creators
@@ -49,7 +61,7 @@ export const login = (email, password, isRememberMe) => {
             if (data.resultCode === 0) {
                 dispatch(authMe());
             } else {
-                console.log(`что-то пошло не так. login auth-reducer`);
+                dispatch(setAuthError());
             }
         })
     }

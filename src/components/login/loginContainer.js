@@ -13,7 +13,8 @@ const mapStateToProps = ({loginPage, auth}) => {
         password: loginPage.password,
         isRememberMe: loginPage.isRememberMe,
         errorsList: loginPage.errorsList,
-        isAuth: auth.isAuth
+        isAuth: auth.isAuth,
+        authError: auth.authError
     });
 };
 
