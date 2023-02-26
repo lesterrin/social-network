@@ -43,15 +43,13 @@ export const setAuthError = () => ({
 });
 
 //thunk creators
-export const authMe = () => {
-    return (dispatch) => {
-        authAPI.authMe().then(data => {
+export const authMe = () =>  (dispatch) => {
+        return authAPI.authMe().then(data => {
             if (data.resultCode === 0) {
                 const {id, email, login} = data.data;
                 dispatch(setAuthUserData(id, email, login, true));
             }
         })
-    }
 }
 
 export const login = (email, password, isRememberMe) => {

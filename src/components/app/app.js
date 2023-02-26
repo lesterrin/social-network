@@ -10,33 +10,53 @@ import DialogsContainer from "../dialogs";
 import UsersContainer from "../users";
 import HeaderContainer from "../header";
 import LoginContainer from "../login";
-import React from "react";
+import React, {useEffect} from "react";
+import {connect} from "react-redux";
+import withRouter from "../helpers/withRouter";
+import {compose} from "redux";
+import {initializeApp} from "../../redux/app-reducer";
+import Loader from "../common/loader";
 
-const App = () => {
+const App = (props) => {
+    console.log(props);
+    useEffect(() => {
+        props.initializeApp();
+    }, []);
 
-    return (
-        <div className={s.app_wrapper}>
-            <HeaderContainer />
-            <div className={`${s.content_wrapper} ${s.container}`}>
-                <Sidebar/>
-                <div className={s.dynamic_column}>
-                    <Routes>
-                        <Route path="/profile" element={<ProfileContainer/>}>
-                            <Route path=":id" element={<ProfileContainer/>}/>
-                        </Route>
-                        <Route path="/dialogs" element={<DialogsContainer/>}/>
-                        <Route path="/news" element={<News/>}/>
-                        <Route path="/music" element={<Music/>}/>
-                        <Route path="/settings" element={<Settings/>}/>
-                        <Route path="/users" element={<UsersContainer/>}/>
-                        <Route path="/login" element={<LoginContainer />}/>
-                        <Route path="*" element={<h2>Ресурс не найден</h2>}/>
-                    </Routes>
+    if (!props.isInitialized) {
+        return <Loader/>
+    } else {
+        return (
+            <div className={s.app_wrapper}>
+                <HeaderContainer/>
+                <div className={`${s.content_wrapper} ${s.container}`}>
+                    <Sidebar/>
+                    <div className={s.dynamic_column}>
+                        <Routes>
+                            <Route path="/profile" element={<ProfileContainer/>}>
+                                <Route path=":id" element={<ProfileContainer/>}/>
+                            </Route>
+                            <Route path="/dialogs" element={<DialogsContainer/>}/>
+                            <Route path="/news" element={<News/>}/>
+                            <Route path="/music" element={<Music/>}/>
+                            <Route path="/settings" element={<Settings/>}/>
+                            <Route path="/users" element={<UsersContainer/>}/>
+                            <Route path="/login" element={<LoginContainer/>}/>
+                            <Route path="*" element={<h2>Ресурс не найден</h2>}/>
+                        </Routes>
+                    </div>
                 </div>
+                <Footer/>
             </div>
-            <Footer/>
-        </div>
-    );
+        );
+    }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+    isInitialized: state.app.isInitialized
+})
+
+export default compose(
+    withRouter,
+    connect(mapStateToProps, {initializeApp}))
+(App);

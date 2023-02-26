@@ -1,16 +1,7 @@
 import Header from "./header";
-import React, {useEffect} from "react";
+import React from "react";
 import {connect} from "react-redux";
-import {authMe,logout} from "../../redux/auth-reducer";
-
-const HeaderContainer = (props) => { //перенести проверку авторизации из хедера
-    useEffect(() => {
-       props.authMe();
-    }, []);
-
-
-    return <Header {...props}/>
-}
+import {logout} from "../../redux/auth-reducer";
 
 const mapStateToProps = ({auth}) => ({
     userId: auth.userId,
@@ -19,4 +10,4 @@ const mapStateToProps = ({auth}) => ({
     isAuth: auth.isAuth
 });
 
-export default connect(mapStateToProps, {authMe,logout})(HeaderContainer);
+export default connect(mapStateToProps, {logout})(Header);
