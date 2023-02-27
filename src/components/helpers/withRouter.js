@@ -1,4 +1,4 @@
-import {useLocation, useNavigate, useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React from "react";
 
 const withRouter = (Component) => { //Разве это не hoc?

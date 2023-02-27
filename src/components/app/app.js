@@ -18,7 +18,6 @@ import {initializeApp} from "../../redux/app-reducer";
 import Loader from "../common/loader";
 
 const App = (props) => {
-    console.log(props);
     useEffect(() => {
         props.initializeApp();
     }, []);
