@@ -4,21 +4,14 @@ import {connect} from "react-redux";
 import {getProfileStatus, getUserProfile, updateProfileStatus} from "../../redux/profile-reducer";
 import withRouter from "../helpers/withRouter";
 import withAuthRedirect from "../hoc/withAuthRedirect";
-import {useNavigate} from 'react-router-dom';
 import {compose} from "redux";
 
-const ProfileContainer = ({getUserProfile, getProfileStatus, userProfile, profileStatus, updateProfileStatus, router, userId}) => {
-
-    let navigate = useNavigate(); // Переписать. Navigate из withRouter почему-то не редиректит
+const ProfileContainer = ({getUserProfile,getProfileStatus,userProfile,profileStatus,updateProfileStatus,router,userId}) => {
 
     useEffect(() => {
         const uid = router.params.id ? router.params.id : userId;
-        if (!uid) {
-            navigate('/login');
-        } else {
-            getUserProfile(uid);
-            getProfileStatus(uid);
-        }
+        getUserProfile(uid);
+        getProfileStatus(uid);
     }, [profileStatus]);
 
     return (
@@ -26,7 +19,7 @@ const ProfileContainer = ({getUserProfile, getProfileStatus, userProfile, profil
     );
 }
 
-const mapStateToProps = ({profilePage, auth}) => ({
+const mapStateToProps = ({profilePage,auth}) => ({
     userProfile: profilePage.userProfile,
     profileStatus: profilePage.profileStatus,
     userId: auth.userId
@@ -34,7 +27,8 @@ const mapStateToProps = ({profilePage, auth}) => ({
 
 export default compose(
     connect(mapStateToProps, {getUserProfile, getProfileStatus, updateProfileStatus}),
-    withRouter
+    withRouter,
+    withAuthRedirect
 )(ProfileContainer);
 
 
