@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {
-    followUser, getUsers, setCurrentPage,
+    followUser, requestUsers, setCurrentPage,
     setTotalUsersCount,
     setUsers, toggleIsFetching,
     unfollowUser
@@ -10,14 +10,20 @@ import UsersPresent from "./usersPresent";
 import Loader from "../common/loader";
 import withAuthRedirect from "../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {
+    getUsers,
+    getPageSize,
+    getTotalUsersCount,
+    getCurrentPage, getIsFetching, getSubscribingInProgress
+} from "../../redux/users-selectors";
 
 const UsersContainer = ({
                             users, followUser, unfollowUser, currentPage, setCurrentPage,
-                            pageSize, totalUsersCount, isFetching, subscribingInProgress, getUsers
+                            pageSize, totalUsersCount, isFetching, subscribingInProgress, requestUsers
                         }) => {
 
     useEffect(() => {
-        getUsers(currentPage, pageSize);
+        requestUsers(currentPage, pageSize);
     }, [currentPage]);
 
     const usersPresentProps = {
@@ -36,7 +42,7 @@ const UsersContainer = ({
     );
 }
 
-const mapStateToProps = (state) => {
+/*const mapStateToProps = (state) => {
 
     return ({
         users: state.usersPage.usersData,
@@ -46,6 +52,18 @@ const mapStateToProps = (state) => {
         isFetching: state.usersPage.isFetching,
         subscribingInProgress: state.usersPage.subscribingInProgress
     });
+}*/
+
+const mapStateToProps = (state) => {
+
+    return ({
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        subscribingInProgress: getSubscribingInProgress(state)
+    });
 }
 
 export default compose(
@@ -54,7 +72,7 @@ export default compose(
         setTotalUsersCount,
         setCurrentPage,
         toggleIsFetching,
-        getUsers,
+        requestUsers,
         unfollowUser,
         followUser
     }),

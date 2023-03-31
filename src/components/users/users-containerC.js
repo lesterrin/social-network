@@ -1,22 +1,30 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    followUser, getUsers, setCurrentPage, setTotalUsersCount, setUsers, toggleIsFetching, toggleSubscribingProgress,
+    followUser, requestUsers, setCurrentPage, setTotalUsersCount, setUsers, toggleIsFetching, toggleSubscribingProgress,
     unfollowUser
 } from "../../redux/users-reducer";
 import UsersPresent from "./usersPresent";
 import Loader from "../common/loader";
 import {compose} from "redux";
 import withAuthRedirect from "../hoc/withAuthRedirect";
+import {
+    getCurrentPage,
+    getIsFetching,
+    getPageSize,
+    getSubscribingInProgress,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize);
+        this.props.requestUsers(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChanged = (page) => {
-        this.props.getUsers(page, this.props.pageSize);
+        this.props.requestUsers(page, this.props.pageSize);
     }
 
     render() {
@@ -38,7 +46,7 @@ class UsersContainer extends React.Component {
 
 }
 
-const mapStateToProps = (state) => {
+/*const mapStateToProps = (state) => {
 
     return ({
         users: state.usersPage.usersData,
@@ -48,6 +56,18 @@ const mapStateToProps = (state) => {
         isFetching: state.usersPage.isFetching,
         subscribingInProgress: state.usersPage.subscribingInProgress
     });
+}*/
+
+const mapStateToProps = (state) => {
+
+    return ({
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        subscribingInProgress: getSubscribingInProgress(state)
+    });
 }
 
 export default compose(
@@ -56,7 +76,7 @@ export default compose(
         setTotalUsersCount,
         setCurrentPage,
         toggleIsFetching,
-        getUsers,
+        requestUsers,
         unfollowUser,
         followUser
     }),
