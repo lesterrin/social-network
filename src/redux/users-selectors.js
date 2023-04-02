@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 
 export const getUsersSelector = (state) => state.usersPage.usersData;
 
-export const getUsers = createSelector(getUsers,(users)=>{
+export const getUsers = createSelector(getUsersSelector,(users)=>{
     return users.filter(u=> true);
 });
 
