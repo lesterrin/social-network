@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom"
+import {Routes, Route, Navigate } from "react-router-dom"
 import s from './app.module.css';
 import Sidebar from '../sidebar';
 import ProfileContainer from "../profile";
@@ -32,6 +32,7 @@ const App = (props) => {
                     <Sidebar/>
                     <div className={s.dynamic_column}>
                         <Routes>
+                            <Route path="/" element={<Navigate to="/profile"/>}/>
                             <Route path="/profile" element={<ProfileContainer/>}>
                                 <Route path=":id" element={<ProfileContainer/>}/>
                             </Route>
