@@ -1,12 +1,15 @@
 import s from './profileStatus.module.css';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import * as React from "react";
 
 const ProfileStatus = ({status, updateProfileStatus}) => {
 
-    //Есть баг. Значение статуса, почему-то, не всегда подгружается в input
     const [editMode, setEditMode] = useState(false);
     const [localStatus, setLocalStatus] = useState(status);
+
+    useEffect(() => {
+        setLocalStatus(status);
+    }, [status])
 
     const activateEditMode = () => {
         setEditMode(true);
