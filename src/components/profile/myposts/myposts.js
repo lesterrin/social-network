@@ -2,8 +2,8 @@ import React from "react";
 import s from './myposts.module.css';
 import {maxLength} from "../../common/validators";
 
-const MyPosts = ({newPostText, posts, addPost, changeNewPostText}) => {
-
+const MyPosts = React.memo(({newPostText, posts, addPost, changeNewPostText}) => {
+    console.log('render');
     const newPostElement = React.createRef();
 
     const onAddPost = () => {
@@ -40,6 +40,6 @@ const MyPosts = ({newPostText, posts, addPost, changeNewPostText}) => {
             </div>
         </div>
     );
-}
+});
 
 export default MyPosts;

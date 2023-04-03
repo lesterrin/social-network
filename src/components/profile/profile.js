@@ -3,13 +3,13 @@ import ProfileInfo from "./profileInfo";
 import MyPostsContainer from "./myposts/mypost-container";
 import React from "react";
 
-const Profile = (props) => {
+const Profile = React.memo((props) => {
     return (
         <div className={s.profile}>
             <ProfileInfo {...props}/>
             <MyPostsContainer />
         </div>
     );
-}
+});
 
 export default Profile;
