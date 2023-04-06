@@ -1,7 +1,7 @@
 import {authAPI} from "../api/api";
 
-const SET_AUTH_USER_DATA = 'SET-AUTH-USER-DATA';
-const SET_AUTH_ERROR = 'SET-AUTH-ERROR';
+const SET_AUTH_USER_DATA = 'auth/SET-AUTH-USER-DATA';
+const SET_AUTH_ERROR = 'auth/SET-AUTH-ERROR';
 
 const initialState = {
     userId: null,
@@ -43,40 +43,36 @@ export const setAuthError = () => ({
 });
 
 //thunk creators
-export const authMe = () =>  (dispatch) => {
-        return authAPI.authMe().then(data => {
-            if (data.resultCode === 0) {
-                const {id, email, login} = data.data;
-                dispatch(setAuthUserData(id, email, login, true));
-            }
-        })
+export const authMe = () => async (dispatch) => {
+    let data = await authAPI.authMe();
+
+    if (data.resultCode === 0) {
+        const {id, email, login} = data.data;
+        dispatch(setAuthUserData(id, email, login, true));
+    }
+
 }
 
-export const login = (email, password, isRememberMe) => {
-    return (dispatch) => {
-        authAPI.login(email, password, isRememberMe).then(data => {
-            console.log(data);
-            if (data.resultCode === 0) {
-                dispatch(authMe());
-            } else {
-                dispatch(setAuthError());
-            }
-        })
+export const login = (email, password, isRememberMe) => async (dispatch) => {
+    let data = await authAPI.login(email, password, isRememberMe)
+
+    if (data.resultCode === 0) {
+        dispatch(authMe());
+    } else {
+        dispatch(setAuthError());
     }
 }
 
-export const logout = () => {
-    return (dispatch) => {
-        authAPI.logout().then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false));
-            } else {
-                console.log(`Сервер отклонил попытку авторизации`);
-                if (response.data.resultCode === 10) {
-                    console.log(`Слишком много неудачных попыток. Сервер запросил заполнение капчи. На данный момент капча не реализована`);
-                }
-            }
-        })
+export const logout = () => async (dispatch) => {
+    let response = await authAPI.logout();
+
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false));
+    } else {
+        console.log(`Сервер отклонил попытку авторизации`);
+        if (response.data.resultCode === 10) {
+            console.log(`Слишком много неудачных попыток. Сервер запросил заполнение капчи. На данный момент капча не реализована`);
+        }
     }
 }
 

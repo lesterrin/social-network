@@ -1,9 +1,5 @@
-const SEND_MESSAGE = 'SEND-MESSAGE';
-const CHANGE_MESSAGE_TEXT = 'CHANGE-MESSAGE-TEXT';
-
-export const sendMessageActionCreator = (text) => ({type: SEND_MESSAGE, newMessageText: text});
-
-export const onMessageChangeActionCreator = (text) => ({type: CHANGE_MESSAGE_TEXT, newMessageText: text});
+const SEND_MESSAGE = 'dialogs/SEND-MESSAGE';
+const CHANGE_MESSAGE_TEXT = 'dialogs/CHANGE-MESSAGE-TEXT';
 
 const initialState = {
     dialogsData: [
@@ -49,5 +45,9 @@ const dialogsReducer = (state = initialState, action) => {
             return state;
     }
 }
+
+export const sendMessageActionCreator = (text) => ({type: SEND_MESSAGE, newMessageText: text});
+
+export const onMessageChangeActionCreator = (text) => ({type: CHANGE_MESSAGE_TEXT, newMessageText: text});
 
 export default dialogsReducer;
