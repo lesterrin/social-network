@@ -7,7 +7,7 @@ import {
     unfollowUser
 } from "../../redux/users-reducer";
 import UsersPresent from "./usersPresent";
-import Loader from "../common/loader";
+import Loader from "../loader";
 import withAuthRedirect from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
@@ -41,18 +41,6 @@ const UsersContainer = ({
         isFetching ? <Loader/> : <UsersPresent {...usersPresentProps}/>
     );
 }
-
-/*const mapStateToProps = (state) => {
-
-    return ({
-        users: state.usersPage.usersData,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        subscribingInProgress: state.usersPage.subscribingInProgress
-    });
-}*/
 
 const mapStateToProps = (state) => {
 

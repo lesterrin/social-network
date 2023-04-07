@@ -1,8 +1,7 @@
 import React from "react";
 import s from './profileInfo.module.css';
-import Loader from "../../common/loader";
+import Loader from "../../loader";
 import ProfileStatus from './profileStatus';
-import Profile from "../profile";
 
 const ProfileInfo = ({profile,profileStatus, updateProfileStatus}) => {
 

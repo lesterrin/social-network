@@ -7,31 +7,31 @@ import {connect} from "react-redux";
 import withAuthRedirect from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 
-const mapStateToProps = (state) =>{
-    const dialogs = state.dialogsPage.dialogsData.map(dialogData => {
+const mapStateToProps = ({dialogsPage: {dialogsData, messagesData, newMessageText}}) => {
+    const dialogs = dialogsData.map(dialogData => {
         return <DialogsItem {...dialogData}/>
     });
 
-    const messages = state.dialogsPage.messagesData.map(messageData => {
+    const messages = messagesData.map(messageData => {
         return <Message {...messageData} />
     });
 
-    return({
-        dialogs: dialogs,
-        messages: messages,
-        newMessageText: state.dialogsPage.newMessageText
-    });
+    return {dialogs, messages, newMessageText};
 }
 
 
-const mapDispatchToProps = (dispatch) =>{
-    return({
-        sendMessage: (text)=>{dispatch(sendMessageActionCreator(text))},
-        onMessageChange: (text)=>{dispatch(onMessageChangeActionCreator(text))}
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        sendMessage: (text) => {
+            dispatch(sendMessageActionCreator(text))
+        },
+        onMessageChange: (text) => {
+            dispatch(onMessageChangeActionCreator(text))
+        }
     });
 }
 
 export default compose(
-    connect(mapStateToProps,mapDispatchToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     withAuthRedirect
 )(Dialogs);

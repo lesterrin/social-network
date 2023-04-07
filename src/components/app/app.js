@@ -15,7 +15,7 @@ import {connect} from "react-redux";
 import withRouter from "../helpers/withRouter";
 import {compose} from "redux";
 import {initializeApp} from "../../redux/app-reducer";
-import Loader from "../common/loader";
+import Loader from "../loader";
 
 const App = (props) => {
     useEffect(() => {

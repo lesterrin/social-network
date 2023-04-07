@@ -7,15 +7,8 @@ import {
 } from "../../redux/login-reducer";
 import {login} from "../../redux/auth-reducer";
 
-const mapStateToProps = ({loginPage, auth}) => {
-    return ({
-        email: loginPage.email,
-        password: loginPage.password,
-        isRememberMe: loginPage.isRememberMe,
-        errorsList: loginPage.errorsList,
-        isAuth: auth.isAuth,
-        authError: auth.authError
-    });
+const mapStateToProps = ({loginPage:{email,password,isRememberMe,errorsList}, auth:{isAuth,authError}}) => {
+    return {email, password, isRememberMe, errorsList, isAuth, authError};
 };
 
 const mapDispatchToProps = (dispatch) => {

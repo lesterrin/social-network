@@ -5,7 +5,7 @@ import {
     unfollowUser
 } from "../../redux/users-reducer";
 import UsersPresent from "./usersPresent";
-import Loader from "../common/loader";
+import Loader from "../loader";
 import {compose} from "redux";
 import withAuthRedirect from "../hoc/withAuthRedirect";
 import {

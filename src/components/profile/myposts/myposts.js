@@ -1,6 +1,6 @@
 import React from "react";
 import s from './myposts.module.css';
-import {maxLength} from "../../common/validators";
+import {maxLength} from "../../utils/validators";
 
 const MyPosts = React.memo(({newPostText, posts, addPost, changeNewPostText}) => {
     console.log('render');

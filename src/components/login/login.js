@@ -1,5 +1,5 @@
 import React from "react";
-import {maxLength, required} from "../common/validators";
+import {maxLength, required} from "../utils/validators";
 import s from "./login.module.css";
 import {Navigate} from "react-router-dom";
 
@@ -55,7 +55,7 @@ const LoginForm = ({email, password, isRememberMe, changeEmail, changePassword, 
             {authError ? <div className={s.errors}>Email или пароль введены неверно</div> : null}
             <form onSubmit={handleSubmit}>
                 <div>
-                    <input name='уьфшд' placeholder='email' value={email} onChange={onEmailChange} ref={emailElement}/>
+                    <input name='email' placeholder='email' value={email} onChange={onEmailChange} ref={emailElement}/>
                 </div>
                 <div>
                     <input name='password' placeholder='Password' type='password' value={password}
