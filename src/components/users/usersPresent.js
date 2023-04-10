@@ -2,18 +2,9 @@ import s from "./users.module.css";
 import * as React from "react";
 import userPhoto from "../../assets/images/user_image.png";
 import UserItem from "./user-item";
+import Paginator from "./paginator/paginator";
 
-const UsersPresent = ({totalUsersCount, pageSize, currentPage, unfollow, follow, users, onPageChanged, subscribingInProgress}) => {
-
-    const pagesCount = Math.ceil(totalUsersCount / pageSize);
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
-
-    const pagesStart = ((currentPage - 5) < 0) ? 0 : currentPage - 5;
-    const pagesEnd = currentPage + 5;
-    const slicedPages = pages.slice(pagesStart, pagesEnd);
+const UsersPresent = ({unfollow, follow, users, subscribingInProgress, ...restProps}) => {
 
     const usersItems = users.map(({id, followed, name, status, photos}) => {
         const onClick = followed ? unfollow : follow;
@@ -28,11 +19,7 @@ const UsersPresent = ({totalUsersCount, pageSize, currentPage, unfollow, follow,
             Создать обертку Page. Вынести в заголовок в Page.*/}
             <h3>FindUsers</h3>
             {usersItems}
-            {slicedPages.map(page => {
-                return (<button onClick={() => onPageChanged(page)}
-                                className={currentPage === page ? s.currentPage : ''}>{page}</button>);
-            })}
-            <span>Всего страниц: {pagesCount}</span>
+            <Paginator {...restProps}/>
         </div>
     );
 }
