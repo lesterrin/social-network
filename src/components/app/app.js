@@ -1,23 +1,25 @@
-import {Routes, Route, Navigate, BrowserRouter} from "react-router-dom"
-import s from './app.module.css';
-import Sidebar from '../sidebar';
-import ProfileContainer from "../profile";
-import Footer from "../footer";
-import Music from "../music";
-import News from "../news";
-import Settings from "../settings";
-import DialogsContainer from "../dialogs";
-import UsersContainer from "../users";
-import HeaderContainer from "../header";
-import LoginContainer from "../login";
-import React, {useEffect} from "react";
+import React, {Suspense, useEffect} from "react";
+import {Routes, Route, Navigate, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import withRouter from "../helpers/withRouter";
 import {compose} from "redux";
-import {initializeApp} from "../../redux/app-reducer";
-import Loader from "../loader";
-import Provider from "react-redux/es/components/Provider";
 import store from "../../redux/redux-store";
+
+import s from './app.module.css';
+import Provider from "react-redux/es/components/Provider";
+import {initializeApp} from "../../redux/app-reducer";
+import withRouter from "../helpers/withRouter";
+import Loader from "../loader";
+import HeaderContainer from "../header";
+import Sidebar from '../sidebar';
+import Footer from "../footer";
+import ProfileContainer from "../profile";
+import UsersContainer from "../users";
+import LoginContainer from "../login";
+import WithSuspense from "../hoc/withSuspense";
+const Music = React.lazy(() => import('../music'));
+const News = React.lazy(() => import('../news'));
+const Settings = React.lazy(() => import('../settings'));
+const DialogsContainer = React.lazy(() => import('../dialogs'));
 
 const App = (props) => {
     useEffect(() => {
@@ -38,10 +40,10 @@ const App = (props) => {
                             <Route path="/profile" element={<ProfileContainer/>}>
                                 <Route path=":id" element={<ProfileContainer/>}/>
                             </Route>
-                            <Route path="/dialogs" element={<DialogsContainer/>}/>
-                            <Route path="/news" element={<News/>}/>
-                            <Route path="/music" element={<Music/>}/>
-                            <Route path="/settings" element={<Settings/>}/>
+                            <Route path="/dialogs" element={<WithSuspense component={<DialogsContainer/>}/>}/>
+                            <Route path="/news" element={<WithSuspense component={<News/>}/>}/>
+                            <Route path="/music" element={<WithSuspense component={<Music/>}/>}/>
+                            <Route path="/settings" element={<WithSuspense component={<Settings/>}/>}/>
                             <Route path="/users" element={<UsersContainer/>}/>
                             <Route path="/login" element={<LoginContainer/>}/>
                             <Route path="*" element={<h2>Ресурс не найден</h2>}/>
