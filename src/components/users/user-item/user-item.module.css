@@ -5,9 +5,7 @@
     grid-auto-columns: 1fr;
     gap: 10px 10px;
     grid-auto-flow: row;
-    grid-template-areas:
-            "avatar name action"
-            "avatar status action";
+    grid-template-areas: "avatar name action" "avatar status action";
     padding: 10px;
     border-bottom: solid 1px #dce1e6;
 }
@@ -16,18 +14,33 @@
     background-color: #edeef0;
 }
 
-.avatar { grid-area: avatar; }
+.nav_button {
+    padding: 5px 7px;
+    background: #e5e7eb;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
 
-.avatar img{
+.avatar {
+    grid-area: avatar;
+}
+
+.avatar img {
     width: 75px;
     height: 75px;
     border-radius: 50%;
 }
-.name { grid-area: name; }
+
+.name {
+    grid-area: name;
+}
 
 .status {
     grid-area: status;
     color: #626d7a
 }
 
-.action { grid-area: action; }
+.action {
+    grid-area: action;
+}

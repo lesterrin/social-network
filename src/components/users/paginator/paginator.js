@@ -1,28 +1,38 @@
 import * as React from "react";
 import s from "./paginator.module.css";
+import {useState} from "react";
 
 
 const Paginator = ({currentPage, totalUsersCount, pageSize, onPageChanged}) => {
     const pagesCount = Math.ceil(totalUsersCount / pageSize);
 
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
+    const paginator = [];
+    const pagesPortionSize = 10;
+
+    const [currentPagesPortion, setCurrentPagesPortion] = useState(Math.ceil(currentPage / pagesPortionSize));
+
+    const pagesStart = (currentPagesPortion - 1) * 10 + 1;
+    const pagesEnd = pagesStart + pagesPortionSize - 1;
+
+    for (let i = pagesStart; i <= pagesEnd && i <= pagesCount; i++) {
+        paginator.push(<button onClick={() => onPageChanged(i)}
+                             className={currentPage === i ? `${s.blue} ${s.btn}` : s.btn}
+                              >{i}</button>);
     }
 
-    const pagesStart = ((currentPage - 5) < 0) ? 0 : currentPage - 5;
-    const pagesEnd = currentPage + 5;
-    const slicedPages = pages.slice(pagesStart, pagesEnd);
-    const paginator = slicedPages.map(page => <button onClick={() =>
-                                                      onPageChanged(page)}
-                                                      className={currentPage === page ? s.currentPage : ''}
-                                                      >{page}</button>);
-
     return (
-        <>
+        <div className={s.paginator}>
+            {pagesStart > 1 && <button
+                className={`${s.btn} ${s.blue}`}
+                onClick={() => setCurrentPagesPortion(currentPagesPortion - 1)}
+            >Previous</button>}
             {paginator}
-            <span>Всего страниц: {pagesCount}</span>
-        </>
+            {pagesEnd < pagesCount && <button
+                className={`${s.btn} ${s.blue}`}
+                onClick={() => setCurrentPagesPortion(currentPagesPortion + 1)}
+            >Next</button>}
+            <div>Всего страниц: {pagesCount}</div>
+        </div>
     )
 }
 
