@@ -53,6 +53,8 @@ const LoginForm = ({email, password, isRememberMe, changeEmail, changePassword, 
                 {errors}
             </div>
             {authError ? <div className={s.errors}>Email или пароль введены неверно</div> : null}
+            <div><b>Тестовый логин:</b> TestSamura</div>
+            <div><b>Тестовый пароль:</b>  SamuraPass123</div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <input name='email' placeholder='email' value={email} onChange={onEmailChange} ref={emailElement}/>
