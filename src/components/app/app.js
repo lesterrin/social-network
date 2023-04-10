@@ -1,4 +1,4 @@
-import {Routes, Route, Navigate } from "react-router-dom"
+import {Routes, Route, Navigate, BrowserRouter} from "react-router-dom"
 import s from './app.module.css';
 import Sidebar from '../sidebar';
 import ProfileContainer from "../profile";
@@ -16,6 +16,8 @@ import withRouter from "../helpers/withRouter";
 import {compose} from "redux";
 import {initializeApp} from "../../redux/app-reducer";
 import Loader from "../loader";
+import Provider from "react-redux/es/components/Provider";
+import store from "../../redux/redux-store";
 
 const App = (props) => {
     useEffect(() => {
@@ -56,7 +58,17 @@ const mapStateToProps = (state) => ({
     isInitialized: state.app.isInitialized
 })
 
-export default compose(
+const AppContainer = compose(
     withRouter,
     connect(mapStateToProps, {initializeApp}))
 (App);
+
+const MainApp = () => (
+    <BrowserRouter>
+        <Provider store={store}>
+            <AppContainer/>
+        </Provider>
+    </BrowserRouter>
+)
+
+export default MainApp;
