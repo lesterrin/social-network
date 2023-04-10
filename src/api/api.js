@@ -33,6 +33,6 @@ export const authAPI = {
         email,
         password,
         rememberMe
-    }).then(response => response.data),
+    }).then(response => { console.log(response); return response.data}),
     logout: () => instance.delete(`auth/login`)
 }
