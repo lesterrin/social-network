@@ -4,7 +4,7 @@ const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
     withCredentials: true,
     headers: {
-        "API-KEY": "bf8b5e36-ac4e-4945-b6af-e6bc5e0fb73f"
+        "API-KEY": "ba6d5e05-1c29-4a24-b522-d28090959470"
     }
 })
 
