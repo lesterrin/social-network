@@ -2,7 +2,7 @@ import s from './profileStatus.module.css';
 import {useEffect, useState} from "react";
 import * as React from "react";
 
-const ProfileStatus = ({status, updateProfileStatus}) => {
+const ProfileStatus = ({isOwner, status, updateProfileStatus}) => {
 
     const [editMode, setEditMode] = useState(false);
     const [localStatus, setLocalStatus] = useState(status);
@@ -24,10 +24,21 @@ const ProfileStatus = ({status, updateProfileStatus}) => {
         setLocalStatus(e.currentTarget.value);
     }
 
+    let statusBlock;
+
+    if (!isOwner) statusBlock = <div><span>{status || '--no status--'}</span></div>
+    else if (editMode) {
+        statusBlock = <div><input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
+                                  value={localStatus}/></div>
+    } else {
+        statusBlock = <div><span onClick={activateEditMode}>{status || '--no status--'}</span></div>
+    }
+
     return (
         <div>
             <div>
-                {editMode ?
+                {statusBlock}
+                {/*{editMode ?
                     <div>
                         <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
                                value={localStatus}/>
@@ -36,7 +47,7 @@ const ProfileStatus = ({status, updateProfileStatus}) => {
                     <div>
                         <span onClick={activateEditMode}>{status || '--no status--'}</span>
                     </div>
-                }
+                }*/}
             </div>
         </div>
     )

@@ -1,23 +1,27 @@
 import Profile from "./profile";
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {getProfileStatus, getUserProfile, updateProfileStatus} from "../../redux/profile-reducer";
+import {getProfileStatus, getUserProfile, savePhoto, updateProfileStatus} from "../../redux/profile-reducer";
 import withRouter from "../helpers/withRouter";
 import withAuthRedirect from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 
-const ProfileContainer = ({getUserProfile, getProfileStatus, userProfile, profileStatus, updateProfileStatus, router, userId}) => {
+const ProfileContainer = React.memo(({getUserProfile, getProfileStatus, userProfile, profileStatus, updateProfileStatus, router, userId, savePhoto}) => {
 
     useEffect(() => {
         const uid = router.params.id ? router.params.id : userId;
         getUserProfile(uid);
         getProfileStatus(uid);
-    }, [profileStatus]);
+    }, [profileStatus, router.params.id]); //здесь баг с отрисовкой фото после загрузки
 
     return (
-        <Profile profile={userProfile} profileStatus={profileStatus} updateProfileStatus={updateProfileStatus}/>
+        <Profile isOwner={!router.params.id}
+                 profile={userProfile}
+                 profileStatus={profileStatus}
+                 updateProfileStatus={updateProfileStatus}
+                 savePhoto={savePhoto}/>
     );
-}
+});
 
 const mapStateToProps = ({profilePage: {userProfile, profileStatus}, auth: {userId}}) => ({
     userProfile,
@@ -26,7 +30,7 @@ const mapStateToProps = ({profilePage: {userProfile, profileStatus}, auth: {user
 })
 
 export default compose(
-    connect(mapStateToProps, {getUserProfile, getProfileStatus, updateProfileStatus}),
+    connect(mapStateToProps, {getUserProfile, getProfileStatus, updateProfileStatus, savePhoto}),
     withRouter,
     withAuthRedirect
 )(ProfileContainer);

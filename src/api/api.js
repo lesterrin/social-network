@@ -11,7 +11,17 @@ const instance = axios.create({
 export const profileAPI = {
     getProfile: (uid) => instance.get(`profile/${uid}`),
     getProfileStatus: (uid) => instance.get(`profile/status/${uid}`),
-    updateProfileStatus: (status) => instance.put(`profile/status`, {status})
+    updateProfileStatus: (status) => instance.put(`profile/status`, {status}),
+    savePhoto: (photoFile) => {
+        const formData = new FormData();
+        formData.append('image', photoFile);
+
+        return instance.put(`/profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    }
 }
 
 export const usersAPI = {
@@ -33,6 +43,9 @@ export const authAPI = {
         email,
         password,
         rememberMe
-    }).then(response => { console.log(response); return response.data}),
+    }).then(response => {
+        console.log(response);
+        return response.data
+    }),
     logout: () => instance.delete(`auth/login`)
 }

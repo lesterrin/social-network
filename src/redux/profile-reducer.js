@@ -5,6 +5,7 @@ const CHANGE_NEW_POST_TEXT = 'profile/CHANGE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE';
 const SET_PROFILE_STATUS = 'profile/SET-PROFILE-STATUS';
 const DELETE_POST = 'profile/DELETE-POST';
+const SAVE_PHOTO_SUCCESS = 'profile/SAVE-PHOTO-SUCCESS';
 
 const initialState = {
     postsData: [
@@ -57,6 +58,12 @@ const profileReducer = (state = initialState, action) => {
                 profileStatus: action.profileStatus
             }
 
+        case SAVE_PHOTO_SUCCESS:
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
+            }
+
         default:
             return state;
     }
@@ -67,6 +74,7 @@ export const changeNewPostTextActionCreator = (text) => ({type: CHANGE_NEW_POST_
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, userProfile: profile});
 export const setProfileStatus = (status) => ({type: SET_PROFILE_STATUS, profileStatus: status});
 export const deletePost = (postId) => ({type: DELETE_POST, postId})
+export const savePhotoSuccess = (photos) => ({type: SAVE_PHOTO_SUCCESS, photos})
 
 //thunk creators
 export const getUserProfile = (uid) => async (dispatch) => {
@@ -84,6 +92,12 @@ export const getProfileStatus = (uid) => async (dispatch) => {
 export const updateProfileStatus = (status) => async (dispatch) => {
     let response = await profileAPI.updateProfileStatus(status);
     if (response.data.resultCode === 0) dispatch(setProfileStatus(status));
+}
+
+export const savePhoto = (file) => async (dispatch) => {
+    let response = await profileAPI.savePhoto(file);
+    console.log(response.data.data.photos);
+    if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos));
 }
 
 export default profileReducer;
