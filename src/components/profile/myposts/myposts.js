@@ -3,7 +3,7 @@ import s from './myposts.module.css';
 import {maxLength} from "../../utils/validators";
 
 const MyPosts = React.memo(({newPostText, posts, addPost, changeNewPostText}) => {
-    console.log('render');
+
     const newPostElement = React.createRef();
 
     const onAddPost = () => {

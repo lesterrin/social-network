@@ -6,13 +6,13 @@ import withRouter from "../helpers/withRouter";
 import withAuthRedirect from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 
-const ProfileContainer = React.memo(({getUserProfile, getProfileStatus, userProfile, profileStatus, updateProfileStatus, router, userId, savePhoto}) => {
-
+const ProfileContainer = React.memo(({getUserProfile, getProfileStatus, userProfile,
+                                         profileStatus, updateProfileStatus, router, userId, savePhoto}) => {
     useEffect(() => {
         const uid = router.params.id ? router.params.id : userId;
         getUserProfile(uid);
         getProfileStatus(uid);
-    }, [profileStatus, router.params.id]); //здесь баг с отрисовкой фото после загрузки
+    }, [profileStatus, router.params.id]);
 
     return (
         <Profile isOwner={!router.params.id}
@@ -24,9 +24,9 @@ const ProfileContainer = React.memo(({getUserProfile, getProfileStatus, userProf
 });
 
 const mapStateToProps = ({profilePage: {userProfile, profileStatus}, auth: {userId}}) => ({
-    userProfile,
-    profileStatus,
-    userId
+        userProfile,
+        profileStatus,
+        userId
 })
 
 export default compose(
