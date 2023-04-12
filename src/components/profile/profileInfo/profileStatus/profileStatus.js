@@ -26,29 +26,17 @@ const ProfileStatus = ({isOwner, status, updateProfileStatus}) => {
 
     let statusBlock;
 
-    if (!isOwner) statusBlock = <div><span>{status || '--no status--'}</span></div>
+    if (!isOwner) statusBlock = <span>{status || '--no status--'}</span>
     else if (editMode) {
-        statusBlock = <div><input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
-                                  value={localStatus}/></div>
+        statusBlock = <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
+                             value={localStatus}/>
     } else {
-        statusBlock = <div><span onClick={activateEditMode}>{status || '--no status--'}</span></div>
+        statusBlock = <span onClick={activateEditMode}>{status || '--no status--'}</span>
     }
 
     return (
         <div>
-            <div>
-                {statusBlock}
-                {/*{editMode ?
-                    <div>
-                        <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
-                               value={localStatus}/>
-                    </div>
-                    :
-                    <div>
-                        <span onClick={activateEditMode}>{status || '--no status--'}</span>
-                    </div>
-                }*/}
-            </div>
+            Status: {statusBlock}
         </div>
     )
 }

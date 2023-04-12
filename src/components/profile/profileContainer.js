@@ -12,7 +12,7 @@ const ProfileContainer = React.memo(({getUserProfile, getProfileStatus, userProf
         const uid = router.params.id ? router.params.id : userId;
         getUserProfile(uid);
         getProfileStatus(uid);
-    }, [profileStatus, router.params.id]);
+    }, [router.params.id]);
 
     return (
         <Profile isOwner={!router.params.id}
