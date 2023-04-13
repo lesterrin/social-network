@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import s from './profileInfo.module.css';
 import Loader from "../../loader";
 import ProfileStatus from './profileStatus';
 import userImg from '../../../assets/images/user_image.png';
+import ProfileDataForm from "./profileForm/profileDataForm";
 
-const ProfileInfo = ({isOwner, profile, profileStatus, updateProfileStatus, savePhoto, lookingForAJob}) => {
+const ProfileInfo = ({isOwner, profile, profileStatus, updateProfileStatus, savePhoto, updateProfileData}) => {
+
+    const [editMode, setEditMode] = useState(false);
 
     if (profile === null) {
         return <Loader/>
@@ -21,23 +24,30 @@ const ProfileInfo = ({isOwner, profile, profileStatus, updateProfileStatus, save
             <div className={s.about_block}>
                 <img className={s.avatar} src={profile.photos.large || userImg}/>
                 {isOwner && <input type={'file'} onChange={onMainPhotoSelected}/>}
-                <ProfileData profile={profile}/>
+                {editMode ?
+                    <ProfileDataForm profile={profile} updateProfileData={updateProfileData}/> :
+                    <ProfileData goToEditMode={() => setEditMode(true)} profile={profile} isOwner={isOwner}/>
+                }
             </div>
             <ProfileStatus isOwner={isOwner} status={profileStatus} updateProfileStatus={updateProfileStatus}/>
         </div>
     );
 }
 
-const ProfileData = ({profile}) => (
+const ProfileData = ({profile, isOwner, goToEditMode}) => (
     <>
+        {isOwner && <div>
+            <button onClick={goToEditMode}>Edit</button>
+        </div>}
         <div>{profile.userId}</div>
         <div>Full name: {profile.fullName}</div>
-        <div>Looking for a job: {!profile.lookingForAJob ? 'yes' : 'no'}</div>
+        <div>Looking for a job: {profile.lookingForAJob ? 'yes' : 'no'}</div>
         {
             !profile.lookingForAJob && <div>My professional skills: {profile.lookingForAJobDescription}</div>
         }
         <div>About me: {profile.aboutMe}</div>
-        <div>Contacts: {Object.keys(profile.contacts).map(key => <Contact
+        <div>Contacts:</div>
+        <div className={s.contacts}> {Object.keys(profile.contacts).map(key => <Contact
             key={key}
             contactTitle={key}
             contactValue={profile.contacts[key]}/>
@@ -45,7 +55,7 @@ const ProfileData = ({profile}) => (
     </>
 )
 
-const Contact = ({contactTitle, contactValue}) => {
+export const Contact = ({contactTitle, contactValue}) => {
     return <div>{contactTitle}: {contactValue}</div>
 }
 

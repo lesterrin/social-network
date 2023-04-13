@@ -6,6 +6,7 @@ const SET_USER_PROFILE = 'profile/SET-USER-PROFILE';
 const SET_PROFILE_STATUS = 'profile/SET-PROFILE-STATUS';
 const DELETE_POST = 'profile/DELETE-POST';
 const SAVE_PHOTO_SUCCESS = 'profile/SAVE-PHOTO-SUCCESS';
+const UPDATE_PROFILE_DATA_SUCCESS = 'profile/UPDATE-PROFILE-DATA-SUCCESS';
 
 const initialState = {
     postsData: [
@@ -64,6 +65,19 @@ const profileReducer = (state = initialState, action) => {
                 userProfile: {...state.userProfile, photos: action.photos}
             }
 
+        case UPDATE_PROFILE_DATA_SUCCESS:
+            const {lookingForAJob, lookingForAJobDescription, fullName, contacts} = action;
+            return {
+                ...state,
+                userProfile: {
+                    ...state.userProfile,
+                    lookingForAJob,
+                    lookingForAJobDescription,
+                    fullName,
+                    contacts: {...contacts}
+                }
+            }
+
         default:
             return state;
     }
@@ -73,8 +87,9 @@ export const addPostActionCreator = (text) => ({type: ADD_POST, postMessage: tex
 export const changeNewPostTextActionCreator = (text) => ({type: CHANGE_NEW_POST_TEXT, newPostText: text});
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, userProfile: profile});
 export const setProfileStatus = (status) => ({type: SET_PROFILE_STATUS, profileStatus: status});
-export const deletePost = (postId) => ({type: DELETE_POST, postId})
-export const savePhotoSuccess = (photos) => ({type: SAVE_PHOTO_SUCCESS, photos})
+export const deletePost = (postId) => ({type: DELETE_POST, postId});
+export const savePhotoSuccess = (photos) => ({type: SAVE_PHOTO_SUCCESS, photos});
+export const updateProfileDataSuccess = () => ({type: UPDATE_PROFILE_DATA_SUCCESS});
 
 //thunk creators
 export const getUserProfile = (uid) => async (dispatch) => {
@@ -97,6 +112,12 @@ export const updateProfileStatus = (status) => async (dispatch) => {
 export const savePhoto = (file) => async (dispatch) => {
     let response = await profileAPI.savePhoto(file);
     if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos));
+}
+
+export const updateProfileData = (profile) => async (dispatch) => {
+    let response = await profileAPI.updateProfileData(profile);
+    console.log(response);
+    if (response.data.resultCode === 0) dispatch(updateProfileDataSuccess(profile.userId, profile.lookingForAJob, profile.lookingForAJobDescription, profile.fullName, profile.contacts));
 }
 
 export default profileReducer;

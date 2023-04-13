@@ -21,6 +21,10 @@ export const profileAPI = {
                 'Content-Type': 'multipart/form-data'
             }
         });
+    },
+    updateProfileData: (profile) => {
+        console.log(profile);
+        return instance.put(`/profile`, profile);
     }
 }
 
