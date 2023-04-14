@@ -93,31 +93,31 @@ export const updateProfileDataSuccess = () => ({type: UPDATE_PROFILE_DATA_SUCCES
 
 //thunk creators
 export const getUserProfile = (uid) => async (dispatch) => {
-    let response = await profileAPI.getProfile(uid);
+    const response = await profileAPI.getProfile(uid);
     dispatch(setUserProfile(response.data));
 }
 
 export const getProfileStatus = (uid) => async (dispatch) => {
-    let response = await profileAPI.getProfileStatus(uid);
+    const response = await profileAPI.getProfileStatus(uid);
 
     if (response.data !== null) dispatch(setProfileStatus(response.data));
     else dispatch(setProfileStatus('Статус отсутствует'));
 }
 
 export const updateProfileStatus = (status) => async (dispatch) => {
-    let response = await profileAPI.updateProfileStatus(status);
+    const response = await profileAPI.updateProfileStatus(status);
     if (response.data.resultCode === 0) dispatch(setProfileStatus(status));
 }
 
 export const savePhoto = (file) => async (dispatch) => {
-    let response = await profileAPI.savePhoto(file);
+    const response = await profileAPI.savePhoto(file);
     if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos));
 }
 
-export const updateProfileData = (profile) => async (dispatch) => {
-    let response = await profileAPI.updateProfileData(profile);
-    console.log(response);
-    if (response.data.resultCode === 0) dispatch(updateProfileDataSuccess(profile.userId, profile.lookingForAJob, profile.lookingForAJobDescription, profile.fullName, profile.contacts));
+export const updateProfileData = (profile) => async (dispatch,getState) => {
+    const userId = getState().auth.userId;
+    const response = await profileAPI.updateProfileData(profile);
+    if (response.data.resultCode === 0) dispatch(getUserProfile(userId));
 }
 
 export default profileReducer;

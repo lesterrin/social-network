@@ -23,7 +23,6 @@ export const profileAPI = {
         });
     },
     updateProfileData: (profile) => {
-        console.log(profile);
         return instance.put(`/profile`, profile);
     }
 }

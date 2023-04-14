@@ -12,7 +12,7 @@ const ProfileInfo = ({isOwner, profile, profileStatus, updateProfileStatus, save
     if (profile === null) {
         return <Loader/>
     }
-
+    console.log(profile);
     const onMainPhotoSelected = (e) => {
         if (e.target.files.length) {
             savePhoto(e.target.files[0]);
@@ -25,7 +25,8 @@ const ProfileInfo = ({isOwner, profile, profileStatus, updateProfileStatus, save
                 <img className={s.avatar} src={profile.photos.large || userImg}/>
                 {isOwner && <input type={'file'} onChange={onMainPhotoSelected}/>}
                 {editMode ?
-                    <ProfileDataForm profile={profile} updateProfileData={updateProfileData}/> :
+                    <ProfileDataForm profile={profile} updateProfileData={updateProfileData}
+                                     exitEditMode={() => setEditMode(false)}/> :
                     <ProfileData goToEditMode={() => setEditMode(true)} profile={profile} isOwner={isOwner}/>
                 }
             </div>
@@ -43,15 +44,16 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => (
         <div>Full name: {profile.fullName}</div>
         <div>Looking for a job: {profile.lookingForAJob ? 'yes' : 'no'}</div>
         {
-            !profile.lookingForAJob && <div>My professional skills: {profile.lookingForAJobDescription}</div>
+            profile.lookingForAJob && <div>My professional skills: {profile.lookingForAJobDescription}</div>
         }
         <div>About me: {profile.aboutMe}</div>
-        <div>Contacts:</div>
+        {/*Когда-нибудь это нужно доделать*/}
+        {/*<div>Contacts:</div>
         <div className={s.contacts}> {Object.keys(profile.contacts).map(key => <Contact
             key={key}
             contactTitle={key}
             contactValue={profile.contacts[key]}/>
-        )}</div>
+        )}</div>*/}
     </>
 )
 
