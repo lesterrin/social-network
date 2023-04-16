@@ -9,14 +9,10 @@ const ProfileInfo = ({isOwner, profile, profileStatus, updateProfileStatus, save
 
     const [editMode, setEditMode] = useState(false);
 
-    if (profile === null) {
-        return <Loader/>
-    }
-    console.log(profile);
+    if (profile === null) return <Loader/>
+
     const onMainPhotoSelected = (e) => {
-        if (e.target.files.length) {
-            savePhoto(e.target.files[0]);
-        }
+        if (e.target.files.length) savePhoto(e.target.files[0]);
     }
 
     return (

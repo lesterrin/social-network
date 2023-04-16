@@ -16,14 +16,23 @@ import ProfileContainer from "../profile";
 import UsersContainer from "../users";
 import LoginContainer from "../login";
 import WithSuspense from "../hoc/withSuspense";
+
 const Music = React.lazy(() => import('../music'));
 const News = React.lazy(() => import('../news'));
 const Settings = React.lazy(() => import('../settings'));
 const DialogsContainer = React.lazy(() => import('../dialogs'));
 
 const App = (props) => {
+
+    const catchAllUnhandledErrors = (promiseRejectionEvent) => {
+        alert(promiseRejectionEvent);
+        console.error(promiseRejectionEvent);
+    }
+
     useEffect(() => {
         props.initializeApp();
+        window.addEventListener("unhandledrejection", (e) => catchAllUnhandledErrors(e));
+        return window.removeEventListener("unhandledrejection", (e) => catchAllUnhandledErrors(e));
     }, []);
 
     if (!props.isInitialized) {
@@ -46,7 +55,7 @@ const App = (props) => {
                             <Route path="/settings" element={<WithSuspense component={<Settings/>}/>}/>
                             <Route path="/users" element={<UsersContainer/>}/>
                             <Route path="/login" element={<LoginContainer/>}/>
-                            <Route path="*" element={<h2>Ресурс не найден</h2>}/>
+                            <Route path="*" element={<h2>404 Ресурс не найден</h2>}/>
                         </Routes>
                     </div>
                 </div>

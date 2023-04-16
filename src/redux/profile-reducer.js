@@ -93,8 +93,12 @@ export const updateProfileDataSuccess = () => ({type: UPDATE_PROFILE_DATA_SUCCES
 
 //thunk creators
 export const getUserProfile = (uid) => async (dispatch) => {
-    const response = await profileAPI.getProfile(uid);
-    dispatch(setUserProfile(response.data));
+    try {
+        const response = await profileAPI.getProfile(uid);
+        dispatch(setUserProfile(response.data));
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const getProfileStatus = (uid) => async (dispatch) => {
@@ -105,19 +109,35 @@ export const getProfileStatus = (uid) => async (dispatch) => {
 }
 
 export const updateProfileStatus = (status) => async (dispatch) => {
-    const response = await profileAPI.updateProfileStatus(status);
-    if (response.data.resultCode === 0) dispatch(setProfileStatus(status));
+    try {
+        const response = await profileAPI.updateProfileStatus(status);
+        if (response.data.resultCode === 0) dispatch(setProfileStatus(status));
+    } catch (error) {
+        console.log(error);
+    }
+    //else return Promise.reject(response.data.messages[0]);
 }
 
 export const savePhoto = (file) => async (dispatch) => {
-    const response = await profileAPI.savePhoto(file);
-    if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos));
+    try {
+        const response = await profileAPI.savePhoto(file);
+        if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos));
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-export const updateProfileData = (profile) => async (dispatch,getState) => {
-    const userId = getState().auth.userId;
-    const response = await profileAPI.updateProfileData(profile);
-    if (response.data.resultCode === 0) dispatch(getUserProfile(userId));
+export const updateProfileData = (profile) => async (dispatch, getState) => {
+    try {
+        const userId = getState().auth.userId;
+        const response = await profileAPI.updateProfileData(profile);
+        if (response.data.resultCode === 0) dispatch(getUserProfile(userId));
+        else {
+            return Promise.reject(response.data.messages[0]);
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export default profileReducer;

@@ -28,17 +28,19 @@ const ProfileDataForm = ({profile, updateProfileData, exitEditMode}) => {
         setAboutMe(aboutMeElement.current.value);
     }
 
+    const [errors, setErrors] = useState(null)
+
 
     const handleSubmit = (e) => {
+        e.preventDefault();
         updateProfileData({
             userId: profile.userId,
             fullName: fullName,
             lookingForAJob: lookingForAJob,
             lookingForAJobDescription: lookingForAJobDescription,
             aboutMe: aboutMe
-        });
-        exitEditMode();
-        e.preventDefault();
+        }).then(() => exitEditMode())
+            .catch((e) => setErrors(e));
     }
 
     return (
@@ -47,6 +49,7 @@ const ProfileDataForm = ({profile, updateProfileData, exitEditMode}) => {
                 <input type='submit' value='Save'/>
                 <input type='button' value='Discard' onClick={exitEditMode}/>
             </div>
+            {errors && <div className={s.errors}>Errors: {errors}</div>}
             <div>{profile.userId}</div>
             <div>Full name: <input ref={fullNameElement} value={fullName} onChange={onFullNameChange}/></div>
             <div>Looking for a job: <input ref={lookingForAJobElement} type='checkbox' defaultChecked={lookingForAJob}

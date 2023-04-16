@@ -1,3 +1,8 @@
 .contacts{
     padding-left:15px;
 }
+
+.errors{
+    border: solid 1px red;
+    color: red;
+}
