@@ -1,13 +1,18 @@
-import {authAPI} from "../api/api";
+import {authAPI, securityAPI} from "../api/api";
+import {Navigate} from "react-router-dom";
+import React from "react";
 
 const SET_AUTH_USER_DATA = 'auth/SET-AUTH-USER-DATA';
 const SET_AUTH_ERROR = 'auth/SET-AUTH-ERROR';
+const GET_CAPTCHA_URL_SUCCESS = 'auth/GET-CAPTCHA-URL-SUCCESS';
 
 const initialState = {
     userId: null,
     email: null,
     login: null,
-    isAuth: false
+    isAuth: false,
+    authError: false,
+    captchaUrl: null //если null, значит капча не требуется
 }
 
 const authReducer = (state = initialState, action) => {
@@ -27,6 +32,12 @@ const authReducer = (state = initialState, action) => {
                 authError: true
             }
 
+        case GET_CAPTCHA_URL_SUCCESS:
+            return {
+                ...state,
+                captchaUrl: action.captchaUrl
+            }
+
         default:
             return state;
     }
@@ -42,9 +53,11 @@ export const setAuthError = () => ({
     type: SET_AUTH_ERROR
 });
 
+export const setCaptchaUrl = (captchaUrl) => ({type: GET_CAPTCHA_URL_SUCCESS, captchaUrl});
+
 //thunk creators
 export const authMe = () => async (dispatch) => {
-    let data = await authAPI.authMe();
+    const data = await authAPI.authMe();
 
     if (data.resultCode === 0) {
         const {id, email, login} = data.data;
@@ -53,27 +66,34 @@ export const authMe = () => async (dispatch) => {
 
 }
 
-export const login = (email, password, isRememberMe) => async (dispatch) => {
-    let data = await authAPI.login(email, password, isRememberMe)
+export const login = (email, password, isRememberMe, captcha) => async (dispatch) => {
+    const data = await authAPI.login(email, password, isRememberMe, captcha)
 
     if (data.resultCode === 0) {
         dispatch(authMe());
     } else {
         dispatch(setAuthError());
+        console.log(`Сервер отклонил попытку авторизации`);
+        console.log(data);
+        if (data.resultCode === 10) {
+            console.log(`Слишком много неудачных попыток. Сервер запросил заполнение капчи.`);
+            dispatch(getCaptchaUrl());
+        }
     }
 }
 
 export const logout = () => async (dispatch) => {
-    let response = await authAPI.logout();
+    const response = await authAPI.logout();
 
     if (response.data.resultCode === 0) {
         dispatch(setAuthUserData(null, null, null, false));
-    } else {
-        console.log(`Сервер отклонил попытку авторизации`);
-        if (response.data.resultCode === 10) {
-            console.log(`Слишком много неудачных попыток. Сервер запросил заполнение капчи. На данный момент капча не реализована`);
-        }
     }
+}
+
+export const getCaptchaUrl = () => async (dispatch) => {
+    const response = await securityAPI.getCaptchaUrl();
+    const captchaUrl = response.data.url;
+    dispatch(setCaptchaUrl(captchaUrl));
 }
 
 export default authReducer;

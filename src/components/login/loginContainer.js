@@ -3,12 +3,12 @@ import {connect} from "react-redux";
 import {
     toggleIsRememberMeActionCreator,
     changeEmailActionCreator,
-    changePasswordActionCreator, changeErrorsListActionCreator
+    changePasswordActionCreator, changeErrorsListActionCreator, changeCaptchaActionCreator
 } from "../../redux/login-reducer";
 import {login} from "../../redux/auth-reducer";
 
-const mapStateToProps = ({loginPage:{email,password,isRememberMe,errorsList}, auth:{isAuth,authError}}) => {
-    return {email, password, isRememberMe, errorsList, isAuth, authError};
+const mapStateToProps = ({loginPage: {email, password, isRememberMe, errorsList, captcha}, auth: {isAuth, authError, captchaUrl}}) => {
+    return {email, password, isRememberMe, errorsList, isAuth, authError, captchaUrl, captcha};
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -17,7 +17,8 @@ const mapDispatchToProps = (dispatch) => {
         changePassword: (password) => dispatch(changePasswordActionCreator(password)),
         toggleIsRememberMe: (isRememberMe) => dispatch(toggleIsRememberMeActionCreator(isRememberMe)),
         changeErrorsList: (error) => dispatch(changeErrorsListActionCreator(error)),
-        login: (email, password, isRememberMe) => dispatch(login(email, password, isRememberMe))
+        changeCaptcha: (captcha) => dispatch(changeCaptchaActionCreator(captcha)),
+        login: (email, password, isRememberMe, captcha) => dispatch(login(email, password, isRememberMe, captcha))
     });
 };
 
