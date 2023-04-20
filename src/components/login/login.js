@@ -17,7 +17,6 @@ const LoginForm = ({
     const errors = errorsList.map(e => <div>{e}</div>);
 
     const handleSubmit = (e) => {
-        console.log(required(captcha), !captchaUrl);
         if ((required(email) && required(password)) && (required(captcha) || !captchaUrl)) {
             errorsWrapper.current.classList.add(s.hidden);
             changeErrorsList([]);
