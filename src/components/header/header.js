@@ -8,7 +8,7 @@ const Header = (props) => {
             <div className={s.container}>
                 <div className={s.title}>
                     <img src={reactLogo}/>
-                    <span>SocNet</span></div>
+                    <span>SocNet-в работе</span></div>
                 <div className={s.login_block}>
                     {props.isAuth ?
                         <div><span>{props.login}</span> - <button onClick={props.logout}>Logout</button></div> :
