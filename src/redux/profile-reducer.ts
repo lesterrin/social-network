@@ -96,11 +96,23 @@ type SavePhotoSuccessActionType = { type: typeof SAVE_PHOTO_SUCCESS, photos: Pho
 
 //action creators
 export const addPostActionCreator = (text: string): AddPostActionType => ({type: ADD_POST, postMessage: text});
-export const changeNewPostTextActionCreator = (text: string): ChangeNewPostTextActionType => ({type: CHANGE_NEW_POST_TEXT, newPostText: text});
-export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({type: SET_USER_PROFILE, userProfile: profile});
-export const setProfileStatus = (status: string): SetProfileStatusActionType => ({type: SET_PROFILE_STATUS, profileStatus: status});
+export const changeNewPostTextActionCreator = (text: string): ChangeNewPostTextActionType => ({
+    type: CHANGE_NEW_POST_TEXT,
+    newPostText: text
+});
+export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({
+    type: SET_USER_PROFILE,
+    userProfile: profile
+});
+export const setProfileStatus = (status: string): SetProfileStatusActionType => ({
+    type: SET_PROFILE_STATUS,
+    profileStatus: status
+});
 export const deletePost = (postId: number): DeletePostActionType => ({type: DELETE_POST, postId});
-export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({type: SAVE_PHOTO_SUCCESS, photos});
+export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({
+    type: SAVE_PHOTO_SUCCESS,
+    photos
+});
 //export const updateProfileDataSuccess = (): UpdateProfileDataActionType => ({type: UPDATE_PROFILE_DATA_SUCCESS});
 
 //thunk creators
@@ -139,13 +151,13 @@ export const savePhoto = (file: any) => async (dispatch: any) => {
     }
 }
 
-export const updateProfileData = (profile: ProfileType) => async (dispatch,getState)=> {
+export const updateProfileData = (profile: ProfileType) => async (dispatch: any, getState) => {
     try {
         const userId = getState().auth.userId;
         const response = await profileAPI.updateProfileData(profile);
         if (response.data.resultCode === 0) dispatch(getUserProfile(userId));
         else {
-            return Promise.reject(response.data.messages[0]);
+            return Promise.reject(response.data.messages?.[0]);
         }
     } catch (error) {
         console.log(error);
