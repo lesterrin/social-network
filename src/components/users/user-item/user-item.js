@@ -8,7 +8,7 @@ const UserItem = ({id, name, avatar, status, followed, onClick, subscribingInPro
             <div className={s.name}>{name}</div>
             <div className={s.status}>{status}</div>
             <div className={s.action}>
-                <button className={s.nav_button} nClick={() => onClick(id)}
+                <button className={s.nav_button} onClick={() => onClick(id)}
                         disabled={subscribingInProgress.some(uid => uid === id)}>{followed ? 'Отписаться' : 'Подписаться'}</button>
             </div>
         </div>

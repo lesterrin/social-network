@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {PhotosType, PostType, ProfileType} from "../types/types";
 
 const ADD_POST = 'profile/ADD-POST';
 const CHANGE_NEW_POST_TEXT = 'profile/CHANGE-NEW-POST-TEXT';
@@ -7,36 +8,6 @@ const SET_PROFILE_STATUS = 'profile/SET-PROFILE-STATUS';
 const DELETE_POST = 'profile/DELETE-POST';
 const SAVE_PHOTO_SUCCESS = 'profile/SAVE-PHOTO-SUCCESS';
 const UPDATE_PROFILE_DATA_SUCCESS = 'profile/UPDATE-PROFILE-DATA-SUCCESS';
-
-type PostType = {
-    id: number,
-    message: string,
-    likes: number
-}
-
-type ContactsType = {
-    github: string,
-    vk: string,
-    facebook: string,
-    instagram: string,
-    website: string,
-    youtube: string,
-    mainlink: string
-}
-
-type PhotosType = {
-    small: string | null,
-    large: string | null
-}
-
-type ProfileType = {
-    userId: number,
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    contacts: ContactsType
-    photos: PhotosType
-}
 
 const initialState = {
     postsData: [
@@ -69,7 +40,7 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
 
             return {
                 ...state,
-                postsData: [...state.postsData, newPost],
+                postsData: [...state.postsData, newPost] as Array<PostType>,
                 newPostText: ''
             };
 
@@ -94,7 +65,7 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
         case SAVE_PHOTO_SUCCESS:
             return {
                 ...state,
-                userProfile: {...state.userProfile, photos: action.photos}
+                userProfile: {...state.userProfile, photos: action.photos} as ProfileType
             }
 
         case UPDATE_PROFILE_DATA_SUCCESS:
@@ -107,7 +78,7 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
                     lookingForAJobDescription,
                     fullName,
                     contacts: {...contacts}
-                }
+                } as ProfileType
             }
 
         default:
@@ -159,7 +130,7 @@ export const updateProfileStatus = (status: string) => async (dispatch: any) => 
     //else return Promise.reject(response.data.messages[0]);
 }
 
-export const savePhoto = (file) => async (dispatch: any) => {
+export const savePhoto = (file: any) => async (dispatch: any) => {
     try {
         const response = await profileAPI.savePhoto(file);
         if (response.data.resultCode === 0) dispatch(savePhotoSuccess(response.data.data.photos));
@@ -168,7 +139,7 @@ export const savePhoto = (file) => async (dispatch: any) => {
     }
 }
 
-export const updateProfileData = (profile: ProfileType) => async (dispatch, getState) => {
+export const updateProfileData = (profile: ProfileType) => async (dispatch,getState)=> {
     try {
         const userId = getState().auth.userId;
         const response = await profileAPI.updateProfileData(profile);
