@@ -1,9 +1,15 @@
-import * as React from "react";
-import s from "./paginator.module.css";
-import {useState} from "react";
+import React, {FC} from "react";
+import s from './paginator.module.css';
+import {useState} from 'react';
 
+type PropsType = {
+    currentPage: number,
+    totalUsersCount: number,
+    pageSize: number,
+    onPageChanged: (pageNumber: number) => void
+}
 
-const Paginator = ({currentPage, totalUsersCount, pageSize, onPageChanged}) => {
+const Paginator: FC<PropsType> = ({currentPage, totalUsersCount, pageSize, onPageChanged}) => {
     const pagesCount = Math.ceil(totalUsersCount / pageSize);
 
     const paginator = [];

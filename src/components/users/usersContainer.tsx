@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {FC, useEffect} from "react";
 import {connect} from "react-redux";
 import {
     followUser, requestUsers, setCurrentPage,
@@ -16,11 +16,38 @@ import {
     getTotalUsersCount,
     getCurrentPage, getIsFetching, getSubscribingInProgress
 } from "../../redux/users-selectors";
+import {UserDataType} from "../../types/types";
+import {AppStateType} from "../../redux/redux-store";
 
-const UsersContainer = ({
-                            users, followUser, unfollowUser, currentPage, setCurrentPage,
-                            pageSize, totalUsersCount, isFetching, subscribingInProgress, requestUsers
-                        }) => {
+type MapStatePropsType = {
+    users: Array<UserDataType>,
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage: number,
+    isFetching: boolean,
+    subscribingInProgress: Array<number>,
+}
+
+type MapDispatchPropsType = {
+    setUsers: () => void,
+    setTotalUsersCount: () => void,
+    setCurrentPage: (page: number) => void,
+    toggleIsFetching: () => void,
+    requestUsers: (currentPage: number, pageSize: number) => void,
+    unfollowUser: (userId: number) => void,
+    followUser: (userId: number) => void
+}
+
+type OwnPropsType = {
+    //some props
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
+
+const UsersContainer: FC<PropsType> = ({
+                                           users, followUser, unfollowUser, currentPage, setCurrentPage,
+                                           pageSize, totalUsersCount, isFetching, subscribingInProgress, requestUsers
+                                       }) => {
 
     useEffect(() => {
         requestUsers(currentPage, pageSize);
@@ -30,10 +57,10 @@ const UsersContainer = ({
         totalUsersCount: totalUsersCount,
         pageSize: pageSize,
         currentPage: currentPage,
-        unfollow: (userId) => unfollowUser(userId),
-        follow: (userId) => followUser(userId),
+        unfollow: (userId: number) => unfollowUser(userId),
+        follow: (userId: number) => followUser(userId),
         users: users,
-        onPageChanged: (page) => setCurrentPage(page),
+        onPageChanged: (page: number) => setCurrentPage(page),
         subscribingInProgress: subscribingInProgress
     }
 
@@ -42,7 +69,7 @@ const UsersContainer = ({
     );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
     return ({
         users: getUsers(state),
@@ -54,7 +81,7 @@ const mapStateToProps = (state) => {
     });
 }
 
-export default compose(
+export default compose<any>(
     connect(mapStateToProps, {
         setUsers,
         setTotalUsersCount,

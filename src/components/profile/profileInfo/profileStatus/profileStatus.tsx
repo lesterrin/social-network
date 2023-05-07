@@ -1,8 +1,14 @@
 import s from './profileStatus.module.css';
-import {useEffect, useState} from "react";
+import {ChangeEvent, FC, useEffect, useState} from "react";
 import * as React from "react";
 
-const ProfileStatus = ({isOwner, status, updateProfileStatus}) => {
+type PropsType = {
+    isOwner: boolean,
+    status: string,
+    updateProfileStatus: (localStats: string) => void
+}
+
+const ProfileStatus: FC<PropsType> = ({isOwner, status, updateProfileStatus}) => {
 
     const [editMode, setEditMode] = useState(false);
     const [localStatus, setLocalStatus] = useState(status);
@@ -20,7 +26,7 @@ const ProfileStatus = ({isOwner, status, updateProfileStatus}) => {
         updateProfileStatus(localStatus);
     }
 
-    const onStatusChange = (e) => {
+    const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setLocalStatus(e.currentTarget.value);
     }
 

@@ -1,10 +1,22 @@
 import s from "./users.module.css";
-import * as React from "react";
+import React, {FC} from "react";
 import userPhoto from "../../assets/images/user_image.png";
 import UserItem from "./user-item";
 import Paginator from "./paginator/paginator";
+import {UserDataType} from '../../types/types';
 
-const UsersPresent = ({unfollow, follow, users, subscribingInProgress, ...restProps}) => {
+type PropsType = {
+    currentPage: number,
+    totalUsersCount: number,
+    pageSize: number,
+    onPageChanged: (pageNumber: number) => void,
+    users:  Array<UserDataType>,
+    subscribingInProgress: Array<number>,
+    follow: (userId:number)=> void,
+    unfollow: (userId:number)=> void,
+}
+
+const UsersPresent: FC<PropsType> = ({unfollow, follow, users, subscribingInProgress, ...restProps}) => {
 
     const usersItems = users.map(({id, followed, name, status, photos}) => {
         const onClick = followed ? unfollow : follow;
