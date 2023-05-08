@@ -32,7 +32,7 @@ const initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const dialogsReducer = (state = initialState, action: any): InitialStateType => {
+const dialogsReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 
     switch (action.type) {
         case SEND_MESSAGE:
@@ -58,6 +58,8 @@ const dialogsReducer = (state = initialState, action: any): InitialStateType => 
 
 type SendMessageActionType = { type: typeof SEND_MESSAGE, newMessageText: string }
 type OnMessageChangeActionType = {type: typeof CHANGE_MESSAGE_TEXT, newMessageText: string}
+
+type ActionsTypes = SendMessageActionType | OnMessageChangeActionType;
 
 export const sendMessageActionCreator = (newMessageText: string): SendMessageActionType => ({type: SEND_MESSAGE, newMessageText});
 

@@ -14,7 +14,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState;
 
-const loginReducer = (state = initialState, action): InitialStateType => {
+const loginReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case CHANGE_EMAIL:
             return {
