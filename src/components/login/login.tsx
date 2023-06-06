@@ -2,8 +2,9 @@ import React from "react";
 import {maxLength, required} from "../utils/validators";
 import s from "./login.module.css";
 import {Navigate} from "react-router-dom";
+import {MapDispatchPropsType, MapStatePropsType} from "./loginTypes";
 
-const LoginForm = ({
+const LoginForm: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                        email, password, isRememberMe, changeEmail, changePassword, changeCaptcha, authError,
                        changeErrorsList, toggleIsRememberMe, errorsList, login, captcha, captchaUrl
                    }) => {
@@ -86,7 +87,7 @@ const LoginForm = ({
     )
 }
 
-const Login = (props) => {
+const Login: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
     if (!props.isAuth) {
         return (
             <div>
