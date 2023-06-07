@@ -1,11 +1,6 @@
 import React, {FC, useEffect} from "react";
 import {connect} from "react-redux";
-import {
-    followUser, requestUsers, setCurrentPage,
-    setTotalUsersCount,
-    setUsers, toggleIsFetching,
-    unfollowUser
-} from "../../redux/users-reducer";
+import {followUser, requestUsers, unfollowUser, actions} from "../../redux/users-reducer";
 import UsersPresent from "./usersPresent";
 import Loader from "../loader";
 import withAuthRedirect from "../hoc/withAuthRedirect";
@@ -18,6 +13,8 @@ import {
 } from "../../redux/users-selectors";
 import {UserDataType} from "../../types/types";
 import {AppStateType} from "../../redux/redux-store";
+
+const {setUsers, setTotalUsersCount, setCurrentPage, toggleIsFetching} = actions;
 
 type MapStatePropsType = {
     users: Array<UserDataType>,

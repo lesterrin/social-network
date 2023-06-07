@@ -1,4 +1,6 @@
-export const maxLength = (value: string, limit: number): boolean =>  value.length < limit;
+type MaxFieldLengthType = (value: string, limit: number) => boolean;
+export const maxLength: MaxFieldLengthType = (value, limit)=>  value.length < limit;
 
-export const required = (value: string | null | number): boolean => Boolean(value);
+type FieldRequiredType = (value: string| null) => boolean
+export const required: FieldRequiredType = (value) => Boolean(value);
 

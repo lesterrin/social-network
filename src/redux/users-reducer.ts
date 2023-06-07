@@ -1,17 +1,9 @@
 import {usersAPI} from "../api/api";
 import {updateObjectInArray} from "../components/utils/object-helpers";
 import {UserDataType} from "../types/types";
-import {AppStateType} from "./redux-store";
+import {AppStateType, InferActionsTypes} from "./redux-store";
 import {Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
-
-const FOLLOW_USER = 'users/FOLLOW-USER';
-const UNFOLLOW_USER = 'users/UNFOLLOW-USER';
-const SET_USERS = 'users/SET-USERS';
-const SET_TOTAL_USERS_COUNT = 'users/SET-TOTAL-USERS-COUNT';
-const SET_CURRENT_PAGE = 'users/SET-CURRENT-PAGE';
-const TOGGLE_IS_FETCHING = 'users/TOGGLE-IS-FETCHING';
-const TOGGLE_SUBSCRIBING_PROGRESS = 'users/TOGGLE-SUBSCRIBING-PROGRESS';
 
 const initialState = {
     usersData: [] as Array<UserDataType>,
@@ -19,7 +11,7 @@ const initialState = {
     totalUsersCount: 0 as number,
     currentPage: 1 as number,
     isFetching: false as boolean,
-    subscribingInProgress: [] as Array<number> //array of users ids
+    subscribingInProgress: [] as Array<number> //массив id пользователей
 }
 
 type initialStateType = typeof initialState;
@@ -27,43 +19,43 @@ type initialStateType = typeof initialState;
 const usersReducer = (state = initialState, action: ActionsTypes): initialStateType => {
 
     switch (action.type) { //переписать на один редьюсер, меняющий состояние
-        case FOLLOW_USER:
+        case 'FOLLOW_USER':
             return {
                 ...state,
                 usersData: updateObjectInArray(state.usersData, action.userId, 'id', {followed: true})
             }
 
-        case UNFOLLOW_USER:
+        case 'UNFOLLOW_USER':
             return {
                 ...state,
                 usersData: updateObjectInArray(state.usersData, action.userId, 'id', {followed: false})
             }
 
-        case SET_USERS:
+        case 'SET_USERS':
             return {
                 ...state,
                 usersData: [...action.usersData]
             }
 
-        case SET_TOTAL_USERS_COUNT:
+        case 'SET_TOTAL_USERS_COUNT':
             return {
                 ...state,
                 totalUsersCount: action.totalCount
             }
 
-        case SET_CURRENT_PAGE:
+        case 'SET_CURRENT_PAGE':
             return {
                 ...state,
                 currentPage: action.pageNumber
             }
 
-        case TOGGLE_IS_FETCHING:
+        case 'TOGGLE_IS_FETCHING':
             return {
                 ...state,
                 isFetching: action.isFetching
             }
 
-        case TOGGLE_SUBSCRIBING_PROGRESS:
+        case 'TOGGLE_SUBSCRIBING_PROGRESS':
             return {
                 ...state,
                 subscribingInProgress: action.isFetching
@@ -76,31 +68,17 @@ const usersReducer = (state = initialState, action: ActionsTypes): initialStateT
     }
 }
 
-type FollowSuccessActionType = { type: typeof FOLLOW_USER, userId: number };
-type UnfollowSuccessActionType = { type: typeof UNFOLLOW_USER, userId: number };
-type SetUsersActionType = { type: typeof SET_USERS, usersData: Array<UserDataType> };
-type SetTotalUsersCountActionType = { type: typeof SET_TOTAL_USERS_COUNT, totalCount: number };
-type SetCurrentPageActionType = { type: typeof SET_CURRENT_PAGE, pageNumber: number };
-type ToggleIsFetchingActionType = { type: typeof TOGGLE_IS_FETCHING, isFetching: boolean };
-type ToggleSubscribingProgressActionType = { type: typeof TOGGLE_SUBSCRIBING_PROGRESS, isFetching: boolean, id: number };
+type ActionsTypes = InferActionsTypes<typeof actions>;
 
-type ActionsTypes =
-    FollowSuccessActionType
-    | UnfollowSuccessActionType
-    | SetUsersActionType
-    | SetTotalUsersCountActionType
-    | SetCurrentPageActionType
-    | ToggleIsFetchingActionType
-    | ToggleSubscribingProgressActionType;
-
-//action creators
-export const followSuccess = (userId: number): FollowSuccessActionType => ({type: FOLLOW_USER, userId: userId})
-export const unfollowSuccess = (userId: number): UnfollowSuccessActionType => ({type: UNFOLLOW_USER, userId: userId})
-export const setUsers = (users: Array<UserDataType>): SetUsersActionType => ({type: SET_USERS, usersData: users})
-export const setTotalUsersCount = (usersCount: number): SetTotalUsersCountActionType => ({type: SET_TOTAL_USERS_COUNT, totalCount: usersCount})
-export const setCurrentPage = (pageNumber: number): SetCurrentPageActionType => ({type: SET_CURRENT_PAGE, pageNumber})
-export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionType => ({type: TOGGLE_IS_FETCHING, isFetching})
-export const toggleSubscribingProgress = (isFetching: boolean, id: number): ToggleSubscribingProgressActionType => ({type: TOGGLE_SUBSCRIBING_PROGRESS, isFetching, id})
+export const actions = {
+    followSuccess: (userId: number) => ({type: 'FOLLOW_USER', userId: userId} as const),
+    unfollowSuccess: (userId: number) => ({type: 'UNFOLLOW_USER', userId: userId} as const),
+    setUsers: (users: Array<UserDataType>) => ({type: 'SET_USERS', usersData: users} as const),
+    setTotalUsersCount: (usersCount: number) => ({type: 'SET_TOTAL_USERS_COUNT', totalCount: usersCount} as const),
+    setCurrentPage: (pageNumber: number) => ({type: 'SET_CURRENT_PAGE', pageNumber} as const),
+    toggleIsFetching: (isFetching: boolean) => ({type: 'TOGGLE_IS_FETCHING', isFetching} as const),
+    toggleSubscribingProgress: (isFetching: boolean, id: number) => ({type: 'TOGGLE_SUBSCRIBING_PROGRESS', isFetching, id} as const)
+}
 
 //thunk creators
 
@@ -110,36 +88,36 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 export const requestUsers = (currentPage: number,
                              pageSize: number): ThunkType =>
     async (dispatch) => {
-        dispatch(toggleIsFetching(true));
+        dispatch(actions.toggleIsFetching(true));
 
         let data = await usersAPI.getUsers(currentPage, pageSize)
 
-        dispatch(toggleIsFetching(false));
-        dispatch(setUsers(data.items));
-        dispatch(setTotalUsersCount(data.totalCount));
-}
+        dispatch(actions.toggleIsFetching(false));
+        dispatch(actions.setUsers(data.items));
+        dispatch(actions.setTotalUsersCount(data.totalCount));
+    }
 
 const _followUnfollowFlow = async (dispatch: DispatchType,
                                    userId: number,
                                    apiMethod: any,
-                                   actionCreator: (userId:number)=> FollowSuccessActionType | UnfollowSuccessActionType) => {
+                                   actionCreator: (userId: number) => ActionsTypes) => {
 
-    dispatch(toggleSubscribingProgress(true, userId));
+    dispatch(actions.toggleSubscribingProgress(true, userId));
     let response = await apiMethod(userId);
 
     if (response.data.resultCode === 0) {
         dispatch(actionCreator(userId));
     }
 
-    dispatch(toggleSubscribingProgress(false, userId));
+    dispatch(actions.toggleSubscribingProgress(false, userId));
 }
 
 export const unfollowUser = (userId: number): ThunkType => async (dispatch) => {
-    _followUnfollowFlow(dispatch, userId, usersAPI.unfollowUser, unfollowSuccess);
+    _followUnfollowFlow(dispatch, userId, usersAPI.unfollowUser, actions.unfollowSuccess);
 }
 
 export const followUser = (userId: number): ThunkType => async (dispatch) => {
-    _followUnfollowFlow(dispatch, userId, usersAPI.followUser, followSuccess);
+    _followUnfollowFlow(dispatch, userId, usersAPI.followUser, actions.followSuccess);
 }
 
 export default usersReducer;

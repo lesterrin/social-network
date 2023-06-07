@@ -6,10 +6,9 @@ import {
     changePasswordActionCreator, changeErrorsListActionCreator, changeCaptchaActionCreator
 } from "../../redux/login-reducer";
 import {login} from "../../redux/auth-reducer";
-import {AppStateType} from "../../redux/redux-store";
 import {MapDispatchPropsType, MapStatePropsType} from "./loginTypes";
 
-const mapStateToProps = ({loginPage: {email, password, isRememberMe, errorsList, captcha}, auth: {isAuth, authError, captchaUrl}}:AppStateType):MapStatePropsType => {
+const mapStateToProps = ({loginPage: {email, password, isRememberMe, errorsList, captcha}, auth: {isAuth, authError, captchaUrl}}):MapStatePropsType => {
     return {email, password, isRememberMe, errorsList, isAuth, authError, captchaUrl, captcha};
 };
 
