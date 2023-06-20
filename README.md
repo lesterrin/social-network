@@ -4,7 +4,7 @@
 
 Ссылка на прод: https://social-network-bice-sigma.vercel.app/
 
-Стек: JavaScript, TypeScript, ReactJS, React Router, Redux, Redux-Toolkit, HTML, CSS
+Стек: JavaScript, TypeScript, ReactJS, React Router, Redux, Thunk, Redux-Toolkit, HTML, CSS
 
 # Скриншоты
 ![Авторизация](./src/assets/images/screenshot_auth.PNG)
